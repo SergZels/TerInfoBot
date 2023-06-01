@@ -13,3 +13,6 @@ class BotDataBase(models.Model):
     class Meta:
         verbose_name_plural = 'Компанії'
         verbose_name = 'Компанії'
+
+    def __str__(self):
+        return self.Name
