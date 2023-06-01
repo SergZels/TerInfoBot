@@ -2,8 +2,10 @@ from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 import requests, json
+import config
 
-bot = Bot(token='5569216235:AAFQeoXnUjjAcTlwU8AryJkps2TUbXRu5xA')
+
+bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
 
 keyboard = types.InlineKeyboardMarkup()
