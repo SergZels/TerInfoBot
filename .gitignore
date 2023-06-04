@@ -1,0 +1,9 @@
+config.py
+debug.txt
+testplot.png
+*.db
+*.bat
+bd/db_bot_tat.db
+*.png
+venv/
+.idea/

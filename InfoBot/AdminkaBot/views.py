@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import BotDataBase
 
 
-def index(request):
+def index1(request):
     db = BotDataBase.objects.all()
 
     response = ""
@@ -23,4 +23,10 @@ def index2(request):
     #serialized_data = serializers.serialize('json', queryset)
     return JsonResponse(data, safe=False)
 
+
+def index(request):
+    param_value = request.GET.get('category')
+    queryset = BotDataBase.objects.filter(category=param_value)
+    data = list(queryset.values())
+    return JsonResponse(data, safe=False)
 
