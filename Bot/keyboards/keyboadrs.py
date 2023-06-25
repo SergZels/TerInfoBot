@@ -1,26 +1,34 @@
 from aiogram import types
 
 keyb_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyb_main.add("Заклади харчування🍽","Краса і здоровя👗💄").add("Магазини🛍","Послуги🔧").add("Організації🏘","Цікаві місця🏞")
+#keyb_main.add("Організації🏘 і установи","Підприємства").add("Заклади харчування🍽","Краса і здоровя👗","Послуги🔧").add("Магазини🛍","Для ВПО👨‍👩‍👦","Військовим🪖")
+#keyb_main.add("Заклади харчування🍽","Краса і здоровя👗").add("Організації🏘 та установи","Підприємства").add("Послуги🔧","Магазини🛍").add("Для ВПО👨‍👩‍👦","Військовим🪖")
+keyb_main.add("Організації та установи 🏘","Магазини🛍").add("Заклади харчування🍽","Послуги🔧").add("Підприємства","Краса і здоровя👗").add("Фінансові та кредитні установи🏦","ВПО+військові🪖")
 
+keyb_organizations = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyb_organizations.add("Міська рада","Освіта👩‍🎓").add("Культура","Охорона та здоров’я").add("Громадські та благодійні організації","Інші організації").add("⬅️ На головну")
 
+#------------------------------------------------------------------------------------------------
 keyb_foot = types.InlineKeyboardMarkup()
 but_kafe = types.InlineKeyboardButton(text='Кафе 🎂', callback_data='команда_Кафе')
 but_bars = types.InlineKeyboardButton(text='Бари', callback_data='команда_Бари')
-but_clubs = types.InlineKeyboardButton(text='Клуби', callback_data='команда_Клуби')
 but_restorans = types.InlineKeyboardButton(text='Ресторани 🥂', callback_data='команда_Ресторани')
 but_fastfoods = types.InlineKeyboardButton(text='Фастфуди 🍿', callback_data='команда_Фастфуди')
-keyb_foot.add(but_kafe).add(but_bars).add(but_clubs).add(but_restorans).add(but_fastfoods)
+keyb_foot.add(but_kafe).add(but_bars).add(but_restorans).add(but_fastfoods)
 
 keyb_kz = types.InlineKeyboardMarkup()
-butkz1 = types.InlineKeyboardButton(text='Аптеки 💊', callback_data='команда_Аптеки')
-butkz2 = types.InlineKeyboardButton(text='Ательє ✂ ', callback_data='команда_Ательє')
-butkz3 = types.InlineKeyboardButton(text='Клініки 🏥', callback_data='команда_Клініки')
-butkz4 = types.InlineKeyboardButton(text='Салони краси', callback_data='команда_Салони_краси')
-butkz5 = types.InlineKeyboardButton(text='Спортзали', callback_data='команда_Спортзали')
-keyb_kz.add(butkz1).add(butkz2).add(butkz3).add(butkz4).add(butkz5)
+butkz1 = types.InlineKeyboardButton(text='Клініки 🏥', callback_data='команда_Клініки')
+butkz2 = types.InlineKeyboardButton(text='Салони краси', callback_data='команда_Салони_краси')
+butkz3 = types.InlineKeyboardButton(text='Спортивні зали, фітнес', callback_data='команда_СпортивніЗалиФітнес')
+keyb_kz.add(butkz2).add(butkz1).add(butkz3)
 
-keyboard_prev_next = types.InlineKeyboardMarkup()
+keyboard_prev_next_about = types.InlineKeyboardMarkup()
 button_prev = types.InlineKeyboardButton(text='⬅️ Назад', callback_data='prev')
 button_next = types.InlineKeyboardButton(text='Далі ➡️', callback_data='next')
-keyboard_prev_next.add(button_prev, button_next)
+button_about = types.InlineKeyboardButton(text='Детальніше', callback_data='about')
+keyboard_prev_next_about.add(button_about).add(button_prev, button_next)
+
+keyboard_prev_next = types.InlineKeyboardMarkup()
+button_prev2 = types.InlineKeyboardButton(text='⬅️ Назад', callback_data='prev')
+button_next2 = types.InlineKeyboardButton(text='Далі ➡️', callback_data='next')
+keyboard_prev_next.add(button_prev2, button_next2)

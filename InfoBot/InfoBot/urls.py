@@ -18,6 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("ep/", include("AdminkaBot.urls")),
+    path('terinfobot/admin/', admin.site.urls),
+    path("terinfobot/ep/", include("AdminkaBot.urls")),
 ]
