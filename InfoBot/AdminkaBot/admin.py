@@ -5,4 +5,8 @@ from django.contrib import admin
 
 from .models import BotDataBase
 
-admin.site.register(BotDataBase)
+
+class BotDataBaseAdmin(admin.ModelAdmin):
+    exclude = ('PhotoURL',)
+
+admin.site.register(BotDataBase, BotDataBaseAdmin)

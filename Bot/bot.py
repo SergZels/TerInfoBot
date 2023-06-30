@@ -7,7 +7,7 @@ from keyboards.keyboadrs import keyb_main, keyb_foot, keyb_kz, keyboard_prev_nex
 from loguru import logger
 from aiogram.utils.executor import start_webhook
 
-TEST_MODE = False
+TEST_MODE = True
 
 if conf.VPS:
     TEST_MODE = False
@@ -37,18 +37,27 @@ main_list = []
 listindex = 0
 
 def getstring(li :list)->str:
-
+#str = f"<strong>Назва:</strong> {li['Name']}\n<strong>Опис:</strong> {li['About']}\n<strong>Адреса:</strong> {li['address']}\n"
     str = f"Назва: {li['Name']}\nОпис: {li['About']}\nАдреса: {li['address']}\n"
     if li['tel']!= "":
-        str+=f"Тел.: {li['tel']}\n"
+      #  str+=f"<strong>Тел.:</strong> {li['tel']}\n"
+        str += f"Тел.: {li['tel']}\n"
     if li['work_schedule']!="":
-        str += f"Графік.: {li['work_schedule']}\n"
+        grafik = f"{li['work_schedule']}".split('#')
+        tempstr=""
+        for i in grafik:
+            tempstr+=f"{i}\n"
+       # str += f"<strong>Графік:</strong> {tempstr}"
+        str += f"Графік: {tempstr}"
     if li['SiteURL']!="":
+        #str += f"<a href='{li['SiteURL']}'>Сайт</a> "
         str += f"Сайт: {li['SiteURL']}\n"
     if li['FaсebookURL']!="":
         str += f"Facebook: {li['FaсebookURL']}\n"
+     #   str += f"<a href='{li['FaсebookURL']}'>Facebook</a> "
     if li['InstagramURL']!="":
         str += f"Instagram: {li['InstagramURL']}\n"
+        #str += f"<a href='{li['InstagramURL']}'>Instagram</a> "
 
     return str
 
@@ -283,7 +292,13 @@ async def change_image_callback(query: types.CallbackQuery):
         i = main_list[0]
        # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\n\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    1 із {len(main_list)}\n"
         res= f"{getstring(i)}\n1 із {len(main_list)}\n"
-        await bot.send_photo(chat_id=query.message.chat.id, photo=i['PhotoURL'], caption=res, reply_markup=keyboard_prev_next)
+        try:
+         await bot.send_photo(chat_id=query.message.chat.id, photo=i['PhotoURL'],caption=res,reply_markup=keyboard_prev_next)
+        #await bot.send_message(chat_id=query.message.chat.id,text=res, reply_markup=keyboard_prev_next,parse_mode="HTML")
+        except:
+            print("aiogram.utils.exceptions.BadRequest: Wrong type of the web page content")
+            await bot.send_message(chat_id=query.message.chat.id, text="помилка - aiogram.utils.exceptions.BadRequest", reply_markup=keyb_main)
+
     else:
         await bot.send_message(chat_id=query.message.chat.id,text="Нажаль ці дані відсутні, бот ще в розробці 🔧",reply_markup=keyb_main)
 
