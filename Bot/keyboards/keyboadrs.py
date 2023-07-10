@@ -6,15 +6,15 @@ keyb_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyb_main.add("Організації та установи 🏘","Магазини🛍").add("Заклади харчування🍽","Послуги🔧").add("Підприємства","Краса і здоровя👗").add("Фінансові та кредитні установи🏦","ВПО+військові🪖")
 
 keyb_organizations = types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyb_organizations.add("Міська рада","Освіта👩‍🎓").add("Культура","Охорона та здоров’я").add("Громадські та благодійні організації","Інші організації").add("⬅️ На головну")
+keyb_organizations.add("Міська рада","Освіта👩‍🎓").add("Культура","Охорона здоров’я").add("Громадські та благодійні організації","Інші установи").add("⬅️ На головну")
 
 #------------------------------------------------------------------------------------------------
 keyb_foot = types.InlineKeyboardMarkup()
 but_kafe = types.InlineKeyboardButton(text='Кафе 🎂', callback_data='команда_Кафе')
-but_bars = types.InlineKeyboardButton(text='Бари', callback_data='команда_Бари')
+#but_bars = types.InlineKeyboardButton(text='Бари', callback_data='команда_Бари')
 but_restorans = types.InlineKeyboardButton(text='Ресторани 🥂', callback_data='команда_Ресторани')
 but_fastfoods = types.InlineKeyboardButton(text='Фастфуди 🍿', callback_data='команда_Фастфуди')
-keyb_foot.add(but_kafe).add(but_bars).add(but_restorans).add(but_fastfoods)
+keyb_foot.add(but_kafe).add(but_restorans).add(but_fastfoods)
 
 keyb_kz = types.InlineKeyboardMarkup()
 butkz1 = types.InlineKeyboardButton(text='Клініки 🏥', callback_data='команда_Клініки')

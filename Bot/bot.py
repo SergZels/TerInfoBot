@@ -87,8 +87,9 @@ async def foots(message: types.Message):
     but_6 = types.InlineKeyboardButton(text='Посуд', callback_data='команда_МагПосуд')
     but_7 = types.InlineKeyboardButton(text='Квіти', callback_data='команда_МагКвіти')
     but_8 = types.InlineKeyboardButton(text='Господарські магазини', callback_data='команда_ГосподарськіМагазини')
-    but_9 = types.InlineKeyboardButton(text='Канцелярія', callback_data='команда_Канцелярія')
-    keyb.add(but_1,but_2).add(but_3,but_4).add(but_5,but_6).add(but_7,but_9).add(but_8)
+    but_9 = types.InlineKeyboardButton(text='Книги та канцелярія', callback_data='команда_Канцелярія')
+    but_10 = types.InlineKeyboardButton(text='Телефони та оргтехніка', callback_data='команда_Телефони_оргтехніка')
+    keyb.add(but_1,but_2).add(but_3,but_4).add(but_5,but_6).add(but_7,but_9).add(but_8).add(but_10)
    # await message.answer("Даний функціонал ще в розробці!",reply_markup=keyb)
     Url = 'https://ceha.com.ua/wp-content/uploads/2016/02/kompleksnoe-reklamnoe-oformlenie-magazinov-supermarketov.jpg'
     await bot.send_photo(chat_id=message.chat.id,photo=Url,caption="", reply_markup=keyb)
@@ -122,7 +123,7 @@ async def foots(message: types.Message):
     but_4 = types.InlineKeyboardButton(text='Нотаріуси', callback_data='команда_Нотаріуси')
     but_5 = types.InlineKeyboardButton(text='Дитяче дозвілля', callback_data='команда_ДитячеДозвілля')
     but_6 = types.InlineKeyboardButton(text='Інтернет-провайдери', callback_data='команда_ІнтернетПровайдери')
-    but_7 = types.InlineKeyboardButton(text='Студії Дизайну', callback_data='команда_СтудіїДизайну')
+    but_7 = types.InlineKeyboardButton(text='Поліграфія та студія дизайну', callback_data='команда_СтудіїДизайну')
     but_8 = types.InlineKeyboardButton(text='Доставка', callback_data='команда_Доставка')
     keyb.add(but_2,but_4).add(but_1).add(but_3,but_8).add(but_5).add(but_6).add(but_7)
    # await message.answer("Даний функціонал ще в розробці", reply_markup=keyb)
@@ -195,23 +196,30 @@ async def foots(message: types.Message):
     keyb.add(but_1).add(but_2).add(but_3).add(but_4)
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
 
-@dp.message_handler(filters.Text(startswith="Охорона та здоров"))
+@dp.message_handler(filters.Text(startswith="Охорона здоров"))
 async def foots(message: types.Message):
     keyb_oxz = types.InlineKeyboardMarkup()
     but_1= types.InlineKeyboardButton(text='КНП ТМР "Теребовлянська міська лікарня"', callback_data='команда_міськаЛікарня')
-    but_2 = types.InlineKeyboardButton(text='Сімейні лікарі', callback_data='команда_СімейніЛікарі')
+    but_2 = types.InlineKeyboardButton(text='Сімейна медицина', callback_data='команда_Сімейна_медицина')
     but_3 = types.InlineKeyboardButton(text='Ветеринарія', callback_data='команда_Ветеринарія')
     but_4 = types.InlineKeyboardButton(text='Аптеки', callback_data='команда_Аптеки')
     but_5 = types.InlineKeyboardButton(text='Стоматології', callback_data='команда_Стоматології')
-    keyb_oxz.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5)
+    but_6 = types.InlineKeyboardButton(text='Лабораторії', callback_data='команда_Лабораторії')
+    keyb_oxz.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5).add(but_6)
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_oxz)
 
-@dp.message_handler(filters.Text(startswith="Інші організації"))
+@dp.message_handler(filters.Text(startswith="Інші установи"))
 async def foots(message: types.Message):
     keyb_ii = types.InlineKeyboardMarkup()
     but_1= types.InlineKeyboardButton(text='Укрпошта', callback_data='команда_Укрпошта')
     but_2 = types.InlineKeyboardButton(text='Центр зайнятості', callback_data='команда_ЦентрЗайнятості')
-    keyb_ii.add(but_1).add(but_2)
+    but_3 = types.InlineKeyboardButton(text='Суд', callback_data='команда_Суд')
+    but_4 = types.InlineKeyboardButton(text='РЕС', callback_data='команда_РЕС')
+    but_5 = types.InlineKeyboardButton(text='Газова служба', callback_data='команда_Газова_служба')
+    but_6 = types.InlineKeyboardButton(text='Поліція', callback_data='команда_Поліція')
+    but_7 = types.InlineKeyboardButton(text='Пожежна', callback_data='команда_Пожежна')
+    but_8 = types.InlineKeyboardButton(text='Газета “Воля”', callback_data='команда_Газета_Воля')
+    keyb_ii.add(but_1).add(but_2).add(but_3,but_4).add(but_5).add(but_6,but_7).add(but_8)
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_ii)
 
 
@@ -246,12 +254,17 @@ async def change_image_callback(query: types.CallbackQuery):
         listindex = listindex + 1
         if listindex == len(main_list):
             listindex = 0
-        i = main_list[listindex]
-       # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n{listindex+1} із {len(main_list)}\n"
-        res = f"{getstring(i)}{listindex + 1} із {len(main_list)}\n"
-        await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
-                                 media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
-                                 reply_markup=keyboard_prev_next)
+
+        try:
+            i = main_list[listindex]
+           # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n{listindex+1} із {len(main_list)}\n"
+            res = f"{getstring(i)}{listindex + 1} із {len(main_list)}\n"
+            await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
+                                     media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
+                                     reply_markup=keyboard_prev_next)
+        except IndexError:
+            print(f"IndexError listindex - {listindex}")
+            logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'prev')
@@ -261,13 +274,19 @@ async def change_image_callback(query: types.CallbackQuery):
         listindex = listindex - 1
         if listindex == -1:
             listindex = len(main_list)-1
-        i = main_list[listindex]
-       # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    {listindex+1} із {len(main_list)}\n"
-        res = f"{getstring(i)}{listindex + 1} із {len(main_list)}\n"
 
-        await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
-                                     media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
-                                     reply_markup=keyboard_prev_next)
+        try:
+            i = main_list[listindex]
+           # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    {listindex+1} із {len(main_list)}\n"
+            res = f"{getstring(i)}{listindex + 1} із {len(main_list)}\n"
+
+            await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
+                                         media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
+                                         reply_markup=keyboard_prev_next)
+        except IndexError:
+            print(f"IndexError listindex - {listindex}")
+            logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
+
 
 @dp.callback_query_handler(lambda c: c.data == 'about')
 async def change_image_callback(query: types.CallbackQuery):
