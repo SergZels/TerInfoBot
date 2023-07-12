@@ -1,11 +1,12 @@
 from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher, filters
+from aiogram.dispatcher import Dispatcher, filters, FSMContext
 from aiogram.utils import executor
 import requests
 import conf
 from keyboards.keyboadrs import keyb_main, keyb_foot, keyb_kz, keyboard_prev_next_about,keyboard_prev_next, keyb_organizations
 from loguru import logger
 from aiogram.utils.executor import start_webhook
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 TEST_MODE = True
 
@@ -31,10 +32,9 @@ WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 WEBAPP_HOST = '0.0.0.0'  # or ip 127.0.0.1
 WEBAPP_PORT = 3007
 bot = Bot(token=API_Token)
-dp = Dispatcher(bot)
+storage = MemoryStorage()
+dp = Dispatcher(bot,storage=storage)
 
-main_list = []
-listindex = 0
 
 def getstring(li :list)->str:
 #str = f"<strong>Назва:</strong> {li['Name']}\n<strong>Опис:</strong> {li['About']}\n<strong>Адреса:</strong> {li['address']}\n"
@@ -49,6 +49,9 @@ def getstring(li :list)->str:
             tempstr+=f"{i}\n"
        # str += f"<strong>Графік:</strong> {tempstr}"
         str += f"Графік: {tempstr}"
+    if li['email']!="":
+        #str += f"<a href='{li['SiteURL']}'>Сайт</a> "
+        str += f"email: {li['email']}\n"
     if li['SiteURL']!="":
         #str += f"<a href='{li['SiteURL']}'>Сайт</a> "
         str += f"Сайт: {li['SiteURL']}\n"
@@ -68,16 +71,14 @@ async def start(message: types.Message):
 
 
 @dp.message_handler(filters.Text(startswith="Заклади харчування"))
-async def foots(message: types.Message):
-    global main_list, listindex
-    main_list = []
-    listindex = 0
+async def foots(message: types.Message, state: FSMContext):
+
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://media.acc.cv.ua/news/article/2020/08/16/62182/TGAyxyaM5Bh1c6pSizF2.w575.jpg",
                          caption="", reply_markup=keyb_foot)
 
 @dp.message_handler(filters.Text(startswith="Магаз"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Продуктові', callback_data='команда_МагПродуктові')
     but_2 = types.InlineKeyboardButton(text='Дитячі', callback_data='команда_МагДитячі')
@@ -95,10 +96,8 @@ async def foots(message: types.Message):
     await bot.send_photo(chat_id=message.chat.id,photo=Url,caption="", reply_markup=keyb)
 
 @dp.message_handler(filters.Text(startswith="Краса і здоровя"))
-async def foots(message: types.Message):
-    global main_list, listindex
-    main_list = []
-    listindex = 0
+async def foots(message: types.Message, state: FSMContext):
+
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://inventure.com.ua/img/thumb.990.660/upload/pic2020-1q/HairSalon-girl-pic.jpg",
                          caption="", reply_markup=keyb_kz)
@@ -106,16 +105,11 @@ async def foots(message: types.Message):
 
 @dp.message_handler(filters.Text(startswith="Магазини"))
 async def foots(message: types.Message):
-    global main_list, listindex
-    main_list = []
-    listindex = 0
+
     await message.answer("Даний функціонал ще в розробці.")
 
 @dp.message_handler(filters.Text(startswith="Послуги"))
-async def foots(message: types.Message):
-    global main_list, listindex
-    main_list = []
-    listindex = 0
+async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Ательє✂️', callback_data='команда_Ательє')
     but_2 = types.InlineKeyboardButton(text='Ремонт авто🚗', callback_data='команда_РемонтАвто')
@@ -132,10 +126,7 @@ async def foots(message: types.Message):
                          caption="", reply_markup=keyb)
 
 @dp.message_handler(filters.Text(startswith="ВПО+військові"))
-async def foots(message: types.Message):
-    global main_list, listindex
-    main_list = []
-    listindex = 0
+async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Дорожня карта ВПО', callback_data='команда_ДорожняКартаВПО')
     but_2 = types.InlineKeyboardButton(text='Корисні локації', callback_data='команда_КорисніЛокації')
@@ -149,7 +140,7 @@ async def foots(message: types.Message):
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
 
 @dp.message_handler(filters.Text(startswith="Організації"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     await message.answer("Оберіть, будь ласка, категорію організацій👇",reply_markup=keyb_organizations)
 
 @dp.message_handler(filters.Text(startswith="Фінансові та кредитні установи"))
@@ -162,8 +153,22 @@ async def foots(message: types.Message):
    # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
     url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+
+
+@dp.message_handler(filters.Text(startswith="Громадські та благодійні організації"))
+async def foots(message: types.Message, state: FSMContext):
+    keyb = types.InlineKeyboardMarkup()
+    but_1 = types.InlineKeyboardButton(text='Громадські організації🏫', callback_data='команда_Громадські_організації')
+    but_2 = types.InlineKeyboardButton(text='Благодійні організації', callback_data='команда_Благодійні_організації')
+    but_3 = types.InlineKeyboardButton(text='Спілки', callback_data='команда_Спілки')
+    but_4 = types.InlineKeyboardButton(text='Релігійні організації', callback_data='команда_Релігійні_організації')
+    keyb.add(but_1).add(but_2).add(but_3).add(but_4)
+   # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
+    url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
+    await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+
 @dp.message_handler(filters.Text(startswith="Міська рада"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb_mr = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Голова громади', callback_data='команда_ГоловаГромади')
     but_2 = types.InlineKeyboardButton(text='Заступники голови', callback_data='команда_ЗаступникиГолови')
@@ -173,7 +178,7 @@ async def foots(message: types.Message):
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_mr)
 
 @dp.message_handler(filters.Text(startswith="Освіта"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb_os = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Школи І ступенів', callback_data='команда_Школи_І_ступенів')
     but_2 = types.InlineKeyboardButton(text='Школи ІІ ступенів', callback_data='команда_Школи_ІІ_ступенів')
@@ -187,7 +192,7 @@ async def foots(message: types.Message):
                          caption="", reply_markup=keyb_os)
 
 @dp.message_handler(filters.Text(startswith="Культура"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='ЦКіДи', callback_data='команда_ЦКіДи')
     but_2 = types.InlineKeyboardButton(text='Музеї, садиби', callback_data='команда_МузеїСадиби')
@@ -197,7 +202,7 @@ async def foots(message: types.Message):
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
 
 @dp.message_handler(filters.Text(startswith="Охорона здоров"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb_oxz = types.InlineKeyboardMarkup()
     but_1= types.InlineKeyboardButton(text='КНП ТМР "Теребовлянська міська лікарня"', callback_data='команда_міськаЛікарня')
     but_2 = types.InlineKeyboardButton(text='Сімейна медицина', callback_data='команда_Сімейна_медицина')
@@ -209,7 +214,7 @@ async def foots(message: types.Message):
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_oxz)
 
 @dp.message_handler(filters.Text(startswith="Інші установи"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     keyb_ii = types.InlineKeyboardMarkup()
     but_1= types.InlineKeyboardButton(text='Укрпошта', callback_data='команда_Укрпошта')
     but_2 = types.InlineKeyboardButton(text='Центр зайнятості', callback_data='команда_ЦентрЗайнятості')
@@ -225,31 +230,32 @@ async def foots(message: types.Message):
 
 
 @dp.message_handler(filters.Text(startswith="⬅️ На головну"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
    await message.answer("Головне меню",reply_markup=keyb_main)
 
 @dp.message_handler(filters.Text(startswith="Підприємства"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці")
 
 @dp.message_handler(filters.Text(startswith="Військовим"))
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці")
 
 @dp.message_handler()
-async def foots(message: types.Message):
+async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці. ")
-# @dp.message_handler(commands=['ep'])
-# async def start(message: types.Message):
-#     x = requests.get('http://127.0.0.1:8000/ep/1')
-#     await message.answer(x.text)
-
 
 #---------------------------------------------------------------------------------
 
 @dp.callback_query_handler(lambda c: c.data == 'next')
-async def change_image_callback(query: types.CallbackQuery):
-    global main_list, listindex
+async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
+
+    async with state.proxy() as data:
+        data['tmp'] = ""
+
+    main_list = data['main_list']
+    listindex = data['listindex']
+
     if len(main_list) > 1:
         listindex = listindex + 1
         if listindex == len(main_list):
@@ -262,14 +268,24 @@ async def change_image_callback(query: types.CallbackQuery):
             await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
                                      media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
                                      reply_markup=keyboard_prev_next)
+            async with state.proxy() as data:
+                data['listindex'] = listindex
         except IndexError:
+            async with state.proxy() as data:
+                data['listindex'] = 0
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'prev')
-async def change_image_callback(query: types.CallbackQuery):
-    global main_list, listindex
+async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
+
+    async with state.proxy() as data:
+        data['tmp'] = ""
+
+    main_list = data['main_list']
+    listindex = data['listindex']
+
     if len(main_list) > 1:
         listindex = listindex - 1
         if listindex == -1:
@@ -283,13 +299,17 @@ async def change_image_callback(query: types.CallbackQuery):
             await bot.edit_message_media(chat_id=query.message.chat.id, message_id=query.message.message_id,
                                          media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
                                          reply_markup=keyboard_prev_next)
+            async with state.proxy() as data:
+                data['listindex'] = listindex
         except IndexError:
+            async with state.proxy() as data:
+                data['listindex'] = 0
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'about')
-async def change_image_callback(query: types.CallbackQuery):
+async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
     global main_list, listindex
     i = main_list[listindex]
     res = f"Назва: {i['Name']}\nКатегорія: {i['category']}\nАдреса: {i['address']}\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n               {listindex+1} із {len(main_list)}\n"
@@ -297,17 +317,20 @@ async def change_image_callback(query: types.CallbackQuery):
                                      media=types.InputMediaPhoto(media=i['PhotoURL'], caption=res),
                                      reply_markup=keyboard_prev_next)
 
-
 #-----------------------------------------------------------------------
 @dp.callback_query_handler()
-async def change_image_callback(query: types.CallbackQuery):
+async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
     global main_list
     category = query.data.split("_")[1] # берем стрічку типу "команда_клініки" та витягуємо із неї клініки
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/"
     resp = requests.get(URL, params={'category': category})
 
     if len(resp.text) > 2:
-        main_list = resp.json()
+        async with state.proxy() as data:
+            data['main_list'] = resp.json()
+            data['listindex'] = 0
+
+        main_list = data['main_list']
         i = main_list[0]
        # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\n\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    1 із {len(main_list)}\n"
         res= f"{getstring(i)}\n1 із {len(main_list)}\n"
