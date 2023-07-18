@@ -24,8 +24,8 @@ bot = Bot(token=API_Token)
 
 logger.add("debug.txt")
 # webhook settings
-WEBHOOK_HOST = 'https://vmi957205.contaboserver.net'
-WEBHOOK_PATH = '/prod_terinfobot'
+WEBHOOK_HOST = conf.WEBHOOK_HOST
+WEBHOOK_PATH = conf.WEBHOOK_PATH
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings
@@ -64,6 +64,23 @@ def getstring(li :list)->str:
 
     return str
 
+@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+async def new_chat_members(message: types.Message):
+    for member in message.new_chat_members:
+        if member.is_bot and member.id == bot.id:
+            # Підписались на бота
+            await bot.send_message(conf.ADMIN_ID,
+                                   f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+            logger.debug(f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+
+@dp.message_handler(content_types=types.ContentType.LEFT_CHAT_MEMBER)
+async def left_chat_member(message: types.Message):
+    if message.left_chat_member.is_bot and message.left_chat_member.id == bot.id:
+        # Відписались від бота
+        await bot.send_message(conf.ADMIN_ID,
+                               f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
+        logger.debug(f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -89,7 +106,7 @@ async def foots(message: types.Message, state: FSMContext):
     but_7 = types.InlineKeyboardButton(text='Квіти', callback_data='команда_МагКвіти')
     but_8 = types.InlineKeyboardButton(text='Господарські магазини', callback_data='команда_ГосподарськіМагазини')
     but_9 = types.InlineKeyboardButton(text='Книги та канцелярія', callback_data='команда_Канцелярія')
-    but_10 = types.InlineKeyboardButton(text='Телефони та оргтехніка', callback_data='команда_Телефони_оргтехніка')
+    but_10 = types.InlineKeyboardButton(text='Телефони та оргтехніка', callback_data='команда_ТелефониОргтехніка')
     keyb.add(but_1,but_2).add(but_3,but_4).add(but_5,but_6).add(but_7,but_9).add(but_8).add(but_10)
    # await message.answer("Даний функціонал ще в розробці!",reply_markup=keyb)
     Url = 'https://ceha.com.ua/wp-content/uploads/2016/02/kompleksnoe-reklamnoe-oformlenie-magazinov-supermarketov.jpg'
@@ -117,9 +134,10 @@ async def foots(message: types.Message, state: FSMContext):
     but_4 = types.InlineKeyboardButton(text='Нотаріуси', callback_data='команда_Нотаріуси')
     but_5 = types.InlineKeyboardButton(text='Дитяче дозвілля', callback_data='команда_ДитячеДозвілля')
     but_6 = types.InlineKeyboardButton(text='Інтернет-провайдери', callback_data='команда_ІнтернетПровайдери')
-    but_7 = types.InlineKeyboardButton(text='Поліграфія та студія дизайну', callback_data='команда_СтудіїДизайну')
+    but_7 = types.InlineKeyboardButton(text='Поліграфія та студія дизайну', callback_data='команда_ПоліграфіяДизайн')
     but_8 = types.InlineKeyboardButton(text='Доставка', callback_data='команда_Доставка')
-    keyb.add(but_2,but_4).add(but_1).add(but_3,but_8).add(but_5).add(but_6).add(but_7)
+    but_9 = types.InlineKeyboardButton(text='Заправки', callback_data='команда_Заправки')
+    keyb.add(but_1).add(but_2,but_4).add(but_3,but_8).add(but_5).add(but_6,but_9).add(but_7)
    # await message.answer("Даний функціонал ще в розробці", reply_markup=keyb)
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://orxid.in.ua/orx/wp-content/uploads/2021/04/20200430_104000-768x576-1.jpg",
@@ -180,11 +198,11 @@ async def foots(message: types.Message, state: FSMContext):
 @dp.message_handler(filters.Text(startswith="Освіта"))
 async def foots(message: types.Message, state: FSMContext):
     keyb_os = types.InlineKeyboardMarkup()
-    but_1 = types.InlineKeyboardButton(text='Школи І ступенів', callback_data='команда_Школи_І_ступенів')
-    but_2 = types.InlineKeyboardButton(text='Школи ІІ ступенів', callback_data='команда_Школи_ІІ_ступенів')
-    but_3 = types.InlineKeyboardButton(text='Школи ІІІ ступенів', callback_data='команда_Школи_ІІІ_ступенів')
+    but_1 = types.InlineKeyboardButton(text='Школи І ступенів', callback_data='команда_ШколиІступенів')
+    but_2 = types.InlineKeyboardButton(text='Школи ІІ ступенів', callback_data='команда_ШколиІІступенів')
+    but_3 = types.InlineKeyboardButton(text='Школи ІІІ ступенів', callback_data='команда_ШколиІІІступенів')
     but_4 = types.InlineKeyboardButton(text='Садочки', callback_data='команда_Садочки')
-    but_5 = types.InlineKeyboardButton(text='Позашкільна освіта', callback_data='команда_Позашкільна освіта')
+    but_5 = types.InlineKeyboardButton(text='Позашкільна освіта', callback_data='команда_ПозашкільнаОсвіта')
     keyb_os.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5)
    # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_os)
     await bot.send_photo(chat_id=message.chat.id,
@@ -205,7 +223,7 @@ async def foots(message: types.Message, state: FSMContext):
 async def foots(message: types.Message, state: FSMContext):
     keyb_oxz = types.InlineKeyboardMarkup()
     but_1= types.InlineKeyboardButton(text='КНП ТМР "Теребовлянська міська лікарня"', callback_data='команда_міськаЛікарня')
-    but_2 = types.InlineKeyboardButton(text='Сімейна медицина', callback_data='команда_Сімейна_медицина')
+    but_2 = types.InlineKeyboardButton(text='Сімейна медицина', callback_data='команда_СімейнаМедицина')
     but_3 = types.InlineKeyboardButton(text='Ветеринарія', callback_data='команда_Ветеринарія')
     but_4 = types.InlineKeyboardButton(text='Аптеки', callback_data='команда_Аптеки')
     but_5 = types.InlineKeyboardButton(text='Стоматології', callback_data='команда_Стоматології')
@@ -216,15 +234,22 @@ async def foots(message: types.Message, state: FSMContext):
 @dp.message_handler(filters.Text(startswith="Інші установи"))
 async def foots(message: types.Message, state: FSMContext):
     keyb_ii = types.InlineKeyboardMarkup()
-    but_1= types.InlineKeyboardButton(text='Укрпошта', callback_data='команда_Укрпошта')
-    but_2 = types.InlineKeyboardButton(text='Центр зайнятості', callback_data='команда_ЦентрЗайнятості')
-    but_3 = types.InlineKeyboardButton(text='Суд', callback_data='команда_Суд')
-    but_4 = types.InlineKeyboardButton(text='РЕС', callback_data='команда_РЕС')
-    but_5 = types.InlineKeyboardButton(text='Газова служба', callback_data='команда_Газова_служба')
-    but_6 = types.InlineKeyboardButton(text='Поліція', callback_data='команда_Поліція')
-    but_7 = types.InlineKeyboardButton(text='Пожежна', callback_data='команда_Пожежна')
-    but_8 = types.InlineKeyboardButton(text='Газета “Воля”', callback_data='команда_Газета_Воля')
-    keyb_ii.add(but_1).add(but_2).add(but_3,but_4).add(but_5).add(but_6,but_7).add(but_8)
+    but_1= types.InlineKeyboardButton(text="Громадські об'єднання", callback_data='команда_ГромадськіОбєднання')
+    but_2 = types.InlineKeyboardButton(text='Церкви', callback_data='команда_Церкви')
+    but_3 = types.InlineKeyboardButton(text='Інші', callback_data='команда_Інші')
+
+    keyb_ii.add(but_1).add(but_2).add(but_3)
+    await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_ii)
+
+@dp.message_handler(filters.Text(startswith="Жителю"))
+async def foots(message: types.Message, state: FSMContext):
+    keyb_ii = types.InlineKeyboardMarkup()
+    but_1= types.InlineKeyboardButton(text='Екстрені служби', callback_data='команда_ЕкстреніСлужби')
+    but_2 = types.InlineKeyboardButton(text="Зв'язок і транспорт", callback_data='команда_ЗвязокТранспорт')
+    but_3 = types.InlineKeyboardButton(text='Комунальні служби', callback_data='команда_КомунальніСлужби')
+    but_4 = types.InlineKeyboardButton(text='Державні установи', callback_data='команда_ДержавніУстанови')
+
+    keyb_ii.add(but_1).add(but_2).add(but_3).add(but_4)
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_ii)
 
 
@@ -348,6 +373,7 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
 ##-------------------Запуск бота-------------------------##
 if TEST_MODE:
     print("Bot running")
+    logger.info("Бот запущено в start_polling")
     #dp.middleware.setup(MidlWare())
     executor.start_polling(dp, skip_updates=True)
 else:
