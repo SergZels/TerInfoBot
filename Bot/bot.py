@@ -3,6 +3,7 @@ from aiogram.dispatcher import Dispatcher, filters, FSMContext
 from aiogram.utils import executor
 import requests
 import conf
+from aiogram.dispatcher.middlewares import BaseMiddleware
 from keyboards.keyboadrs import keyb_main, keyb_foot, keyb_kz, keyboard_prev_next_about,keyboard_prev_next, keyb_organizations
 from loguru import logger
 from aiogram.utils.executor import start_webhook
@@ -27,14 +28,14 @@ logger.add("debug.txt")
 WEBHOOK_HOST = conf.WEBHOOK_HOST
 WEBHOOK_PATH = conf.WEBHOOK_PATH
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
-
 # webserver settings
 WEBAPP_HOST = '0.0.0.0'  # or ip 127.0.0.1
 WEBAPP_PORT = 3007
 bot = Bot(token=API_Token)
 storage = MemoryStorage()
-dp = Dispatcher(bot,storage=storage)
+dp = Dispatcher(bot, storage=storage)
 
+#------------------------functions--------------------------------------
 
 def getstring(li :list)->str:
 #str = f"<strong>Назва:</strong> {li['Name']}\n<strong>Опис:</strong> {li['About']}\n<strong>Адреса:</strong> {li['address']}\n"
@@ -64,7 +65,38 @@ def getstring(li :list)->str:
 
     return str
 
+#---------------------------------midlware----------------------------------
+class MidlWare(BaseMiddleware):
+    async def on_process_update(self, update: types.Update, date: dict):
+
+        if 'callback_query' not in update:
+            logger.info(f"Юзер {update.message.from_user.first_name} написав чи натиснув кнопку {update.message.text}")
+
+
+
+    #-----------------------------------handlers----------------------------------------------
+
+#----------------------------------підписка відписка-------------------------------
+#class SubscribedMiddleware(BaseMiddleware):
+    # async def on_pre_process_message(self, message: types.Message, data: dict):
+    #     chat_member_updated = message.get("new_chat_members")
+    #     if chat_member_updated:
+    #         for member in chat_member_updated:
+    #             if member.is_bot and member.id == bot.id:
+    #                 # Підписались на бота
+    #                 await self.on_bot_subscribed(message)
+    #                 break
+
+    async def on_bot_subscribed(self, message: types.Message):
+        chat_id = message.chat.id
+        user_id = message.from_user.id
+        await bot.send_message(conf.ADMIN_ID,
+                               f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+        logger.debug(f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+        await message.answer(f"Welcome to the chat, {message.from_user.first_name}!")
+
 @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+
 async def new_chat_members(message: types.Message):
     for member in message.new_chat_members:
         if member.is_bot and member.id == bot.id:
@@ -82,11 +114,13 @@ async def left_chat_member(message: types.Message):
         logger.debug(f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
 
 
+#---------------------------------start--------------------------------
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     await message.answer("Вітаємо! Оберіть, будь ласка, категорію👇", reply_markup=keyb_main)
 
 
+#--------------------------------buttons handlers---------------------------------------
 @dp.message_handler(filters.Text(startswith="Заклади харчування"))
 async def foots(message: types.Message, state: FSMContext):
 
@@ -108,9 +142,9 @@ async def foots(message: types.Message, state: FSMContext):
     but_9 = types.InlineKeyboardButton(text='Книги та канцелярія', callback_data='команда_Канцелярія')
     but_10 = types.InlineKeyboardButton(text='Телефони та оргтехніка', callback_data='команда_ТелефониОргтехніка')
     keyb.add(but_1,but_2).add(but_3,but_4).add(but_5,but_6).add(but_7,but_9).add(but_8).add(but_10)
-   # await message.answer("Даний функціонал ще в розробці!",reply_markup=keyb)
     Url = 'https://ceha.com.ua/wp-content/uploads/2016/02/kompleksnoe-reklamnoe-oformlenie-magazinov-supermarketov.jpg'
     await bot.send_photo(chat_id=message.chat.id,photo=Url,caption="", reply_markup=keyb)
+
 
 @dp.message_handler(filters.Text(startswith="Краса і здоровя"))
 async def foots(message: types.Message, state: FSMContext):
@@ -124,6 +158,7 @@ async def foots(message: types.Message, state: FSMContext):
 async def foots(message: types.Message):
 
     await message.answer("Даний функціонал ще в розробці.")
+
 
 @dp.message_handler(filters.Text(startswith="Послуги"))
 async def foots(message: types.Message, state: FSMContext):
@@ -143,6 +178,7 @@ async def foots(message: types.Message, state: FSMContext):
                          photo="https://orxid.in.ua/orx/wp-content/uploads/2021/04/20200430_104000-768x576-1.jpg",
                          caption="", reply_markup=keyb)
 
+
 @dp.message_handler(filters.Text(startswith="ВПО+військові"))
 async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
@@ -153,13 +189,14 @@ async def foots(message: types.Message, state: FSMContext):
     but_5 = types.InlineKeyboardButton(text='Психологічна підтримка', callback_data='команда_ПсихологічнаПідтримка')
     but_6 = types.InlineKeyboardButton(text='Пошук роботи', callback_data='команда_ПошукРоботи')
     keyb.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5).add(but_6)
-   # await message.answer("Даний функціонал ще в розробці", reply_markup=keyb)
     url = 'https://upravbud.info/content/uploads/2022/04/016-980x620.png'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+
 
 @dp.message_handler(filters.Text(startswith="Організації"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("Оберіть, будь ласка, категорію організацій👇",reply_markup=keyb_organizations)
+
 
 @dp.message_handler(filters.Text(startswith="Фінансові та кредитні установи"))
 async def foots(message: types.Message):
@@ -168,7 +205,6 @@ async def foots(message: types.Message):
     but_2 = types.InlineKeyboardButton(text='Казначейство', callback_data='команда_Казначейство')
     but_3 = types.InlineKeyboardButton(text='Кредитні спілки', callback_data='команда_КредитніСпілки')
     keyb.add(but_1).add(but_2).add(but_3)
-   # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
     url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
 
@@ -181,9 +217,9 @@ async def foots(message: types.Message, state: FSMContext):
     but_3 = types.InlineKeyboardButton(text='Спілки', callback_data='команда_Спілки')
     but_4 = types.InlineKeyboardButton(text='Релігійні організації', callback_data='команда_Релігійні_організації')
     keyb.add(but_1).add(but_2).add(but_3).add(but_4)
-   # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
     url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+
 
 @dp.message_handler(filters.Text(startswith="Міська рада"))
 async def foots(message: types.Message, state: FSMContext):
@@ -195,6 +231,7 @@ async def foots(message: types.Message, state: FSMContext):
     keyb_mr.add(but_1).add(but_2).add(but_3).add(but_4)
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_mr)
 
+
 @dp.message_handler(filters.Text(startswith="Освіта"))
 async def foots(message: types.Message, state: FSMContext):
     keyb_os = types.InlineKeyboardMarkup()
@@ -203,11 +240,11 @@ async def foots(message: types.Message, state: FSMContext):
     but_3 = types.InlineKeyboardButton(text='Школи ІІІ ступенів', callback_data='команда_ШколиІІІступенів')
     but_4 = types.InlineKeyboardButton(text='Садочки', callback_data='команда_Садочки')
     but_5 = types.InlineKeyboardButton(text='Позашкільна освіта', callback_data='команда_ПозашкільнаОсвіта')
-    keyb_os.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5)
-   # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_os)
+    keyb_os.add(but_4).add(but_1).add(but_2).add(but_3).add(but_5)
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://images.unian.net/photos/2022_09/thumb_files/400_0_1664111474-8193.jpg?r=616244",
                          caption="", reply_markup=keyb_os)
+
 
 @dp.message_handler(filters.Text(startswith="Культура"))
 async def foots(message: types.Message, state: FSMContext):
@@ -253,24 +290,31 @@ async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці",reply_markup=keyb_ii)
 
 
-
 @dp.message_handler(filters.Text(startswith="⬅️ На головну"))
 async def foots(message: types.Message, state: FSMContext):
    await message.answer("Головне меню",reply_markup=keyb_main)
+
 
 @dp.message_handler(filters.Text(startswith="Підприємства"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці")
 
+
 @dp.message_handler(filters.Text(startswith="Військовим"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці")
 
+
 @dp.message_handler()
 async def foots(message: types.Message, state: FSMContext):
-    await message.answer("Даний функціонал ще в розробці. ")
+    if message.text == "Файл12":
+        doc = open('debug.txt', 'rb')
+        await message.reply_document(doc)
+    else:
+        await message.answer("Даний функціонал ще в розробці. ")
 
-#---------------------------------------------------------------------------------
+
+#----------------------------------------inline buton handlers-----------------------------------------
 
 @dp.callback_query_handler(lambda c: c.data == 'next')
 async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
@@ -300,6 +344,7 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
                 data['listindex'] = 0
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
+    logger.info(f"Користувач {query.from_user.id}-{query.from_user.first_name} перейшов вперед на карточку {i['Name']}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'prev')
@@ -332,6 +377,8 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex - {listindex} mainlist -{main_list}")
 
+    logger.info(f"Користувач {query.from_user.id}-{query.from_user.first_name} повернувся назад на карточку {i['Name']}")
+
 
 @dp.callback_query_handler(lambda c: c.data == 'about')
 async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
@@ -345,7 +392,7 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
 #-----------------------------------------------------------------------
 @dp.callback_query_handler()
 async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
-    global main_list
+
     category = query.data.split("_")[1] # берем стрічку типу "команда_клініки" та витягуємо із неї клініки
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/"
     resp = requests.get(URL, params={'category': category})
@@ -367,14 +414,15 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
             await bot.send_message(chat_id=query.message.chat.id, text="помилка - aiogram.utils.exceptions.BadRequest", reply_markup=keyb_main)
 
     else:
-        await bot.send_message(chat_id=query.message.chat.id,text="Нажаль ці дані відсутні, бот ще в розробці 🔧",reply_markup=keyb_main)
+        await bot.send_message(chat_id=query.message.chat.id, text="Нажаль ці дані відсутні, бот ще в розробці 🔧",reply_markup=keyb_main)
+    logger.info(f"Користувач {query.from_user.id}-{query.from_user.first_name} перейшов по посиланню {category}")
 
 
-##-------------------Запуск бота-------------------------##
+##-------------------bot start-------------------------##
 if TEST_MODE:
     print("Bot running")
     logger.info("Бот запущено в start_polling")
-    #dp.middleware.setup(MidlWare())
+    dp.middleware.setup(MidlWare())
     executor.start_polling(dp, skip_updates=True)
 else:
     async def on_startup(dp):
