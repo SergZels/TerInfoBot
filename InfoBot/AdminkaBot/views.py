@@ -3,7 +3,7 @@ import  json
 from django.core import serializers
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
-from .models import BotDataBase
+from .models import BotDataBase, UsersStatistic
 
 
 def index1(request):
@@ -26,7 +26,17 @@ def index2(request):
 
 def index(request):
     param_value = request.GET.get('category')
-    queryset = BotDataBase.objects.filter(category=param_value)
+    queryset = BotDataBase.objects.filter(category=param_value).order_by('sequence')
     data = list(queryset.values())
     return JsonResponse(data, safe=False)
 
+def userstatistic(request):
+    userName = request.GET.get('userName')
+    userID = request.GET.get('userID')
+    try:
+        existing_user = UsersStatistic.objects.get(userTelegramID=userID)
+    except UsersStatistic.DoesNotExist:
+        # Якщо такого користувача з таким userID ще немає, то додайте його в базу
+        obj = UsersStatistic(userName=userName, userTelegramID=userID)
+        obj.save()
+    return HttpResponse(userName)

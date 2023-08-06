@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.html import mark_safe
+from django.utils import timezone
 
 # Create your models here.
 class BotDataBase(models.Model):
@@ -33,6 +34,8 @@ class BotDataBase(models.Model):
     About = models.CharField(verbose_name="Опис", max_length=400, default="")
     town = models.CharField(verbose_name="Місто", max_length=200, default="Теребовля")
     category = models.CharField(verbose_name="Категорія", max_length=300, choices=catlist)
+    #sequence = models.CharField(verbose_name="Послідовність", blank=True, default=0)# рейтинг
+    sequence = models.IntegerField(verbose_name="Послідовність", blank=True, default=0)  # рейтинг
     address = models.CharField(verbose_name="Адреса", max_length=300)
     tel = models.CharField(verbose_name="Телефон", max_length=100, blank=True)
     work_schedule = models.CharField(verbose_name="Робочий графік", max_length=100, blank=True)
@@ -65,3 +68,17 @@ class BotDataBase(models.Model):
 
     def __str__(self):
         return self.Name
+
+
+class UsersStatistic(models.Model):
+    userName = models.CharField(verbose_name="Імя користувача", max_length=200)
+    userTelegramID = models.CharField(verbose_name="Telegram ID", max_length=200)
+    dateOfRegistration = models.DateField(verbose_name="Дата реестрації", default=timezone.now)
+
+    def __str__(self):
+        return self.userName
+
+    class Meta:
+        verbose_name_plural = 'Статистика користувачів'
+        verbose_name = 'Статистика користувачів'
+
