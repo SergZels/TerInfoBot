@@ -64,27 +64,30 @@ def getstring(li :list)->str:
 
     return str
 
-@dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
-async def new_chat_members(message: types.Message):
-    for member in message.new_chat_members:
-        if member.is_bot and member.id == bot.id:
-            # Підписались на бота
-            await bot.send_message(conf.ADMIN_ID,
-                                   f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
-            logger.debug(f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
-
-@dp.message_handler(content_types=types.ContentType.LEFT_CHAT_MEMBER)
-async def left_chat_member(message: types.Message):
-    if message.left_chat_member.is_bot and message.left_chat_member.id == bot.id:
-        # Відписались від бота
-        await bot.send_message(conf.ADMIN_ID,
-                               f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
-        logger.debug(f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
+# @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
+# async def new_chat_members(message: types.Message):
+#     for member in message.new_chat_members:
+#         if member.is_bot and member.id == bot.id:
+#             # Підписались на бота
+#             await bot.send_message(conf.ADMIN_ID,
+#                                    f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+#             logger.debug(f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
+#
+# @dp.message_handler(content_types=types.ContentType.LEFT_CHAT_MEMBER)
+# async def left_chat_member(message: types.Message):
+#     if message.left_chat_member.is_bot and message.left_chat_member.id == bot.id:
+#         # Відписались від бота
+#         await bot.send_message(conf.ADMIN_ID,
+#                                f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
+#         logger.debug(f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
 
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await message.answer("Вітаємо! Оберіть, будь ласка, категорію👇", reply_markup=keyb_main)
+    welcomeMessageText = '''Вас вітає ТеребовляІнфоБот.\n\nЦифровий продукт створений громадською організацією Центр цифрового розвитку громади.\n\nНаші контакти:\nngozzrg@gmail.com\n098 151 0 251\nngozzrg.terebovlia.info\n<a href='https://www.facebook.com/ngozzrg'>Facebook</a>
+    '''
+    await message.answer(welcomeMessageText, parse_mode="HTML")
+    await message.answer('Оберіть, будь ласка, категорію👇', reply_markup=keyb_main)
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/us/"
     resp = requests.get(URL, params={'userName': message.from_user.first_name, 'userID': message.from_user.id})
 
@@ -145,7 +148,12 @@ async def foots(message: types.Message, state: FSMContext):
                          photo="https://orxid.in.ua/orx/wp-content/uploads/2021/04/20200430_104000-768x576-1.jpg",
                          caption="", reply_markup=keyb)
 
-@dp.message_handler(filters.Text(startswith="ВПО+військові"))
+@dp.message_handler(filters.Text(startswith="Хочеш бути тут"))
+async def foots(message: types.Message, state: FSMContext):
+    await message.answer("<a href='https://forms.gle/FNpJdhBPsPcQFc4c9'>Перейти за посиланням</a> ", reply_markup=keyb_main,parse_mode="HTML")
+
+
+@dp.message_handler(filters.Text(startswith="ВПО"))
 async def foots(message: types.Message, state: FSMContext):
     keyb = types.InlineKeyboardMarkup()
     but_1 = types.InlineKeyboardButton(text='Дорожня карта ВПО', callback_data='команда_ДорожняКартаВПО')
