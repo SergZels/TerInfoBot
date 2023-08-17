@@ -64,24 +64,6 @@ def getstring(li :list)->str:
 
     return str
 
-# @dp.message_handler(content_types=types.ContentType.NEW_CHAT_MEMBERS)
-# async def new_chat_members(message: types.Message):
-#     for member in message.new_chat_members:
-#         if member.is_bot and member.id == bot.id:
-#             # Підписались на бота
-#             await bot.send_message(conf.ADMIN_ID,
-#                                    f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
-#             logger.debug(f"Новенький підписався {message.from_user.first_name} - {message.from_user.id}")
-#
-# @dp.message_handler(content_types=types.ContentType.LEFT_CHAT_MEMBER)
-# async def left_chat_member(message: types.Message):
-#     if message.left_chat_member.is_bot and message.left_chat_member.id == bot.id:
-#         # Відписались від бота
-#         await bot.send_message(conf.ADMIN_ID,
-#                                f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
-#         logger.debug(f"Користувач покинув бот {message.from_user.first_name} - {message.from_user.id}")
-
-
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     welcomeMessageText = '''Вас вітає ТеребовляІнфоБот.\n\nЦифровий продукт створений громадською організацією Центр цифрового розвитку громади.\n\nНаші контакти:\nngozzrg@gmail.com\n098 151 0 251\nngozzrg.terebovlia.info\n<a href='https://www.facebook.com/ngozzrg'>Facebook</a>
@@ -90,6 +72,7 @@ async def start(message: types.Message):
     await message.answer('Оберіть, будь ласка, категорію👇', reply_markup=keyb_main)
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/us/"
     resp = requests.get(URL, params={'userName': message.from_user.first_name, 'userID': message.from_user.id})
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 
 @dp.message_handler(filters.Text(startswith="Заклади харчування"))
@@ -98,6 +81,7 @@ async def foots(message: types.Message, state: FSMContext):
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://media.acc.cv.ua/news/article/2020/08/16/62182/TGAyxyaM5Bh1c6pSizF2.w575.jpg",
                          caption="", reply_markup=keyb_foot)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Магаз"))
 async def foots(message: types.Message, state: FSMContext):
@@ -116,6 +100,7 @@ async def foots(message: types.Message, state: FSMContext):
    # await message.answer("Даний функціонал ще в розробці!",reply_markup=keyb)
     Url = 'https://ceha.com.ua/wp-content/uploads/2016/02/kompleksnoe-reklamnoe-oformlenie-magazinov-supermarketov.jpg'
     await bot.send_photo(chat_id=message.chat.id,photo=Url,caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Краса і здоровя"))
 async def foots(message: types.Message, state: FSMContext):
@@ -123,12 +108,14 @@ async def foots(message: types.Message, state: FSMContext):
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://inventure.com.ua/img/thumb.990.660/upload/pic2020-1q/HairSalon-girl-pic.jpg",
                          caption="", reply_markup=keyb_kz)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 
 @dp.message_handler(filters.Text(startswith="Магазини"))
 async def foots(message: types.Message):
 
     await message.answer("Даний функціонал ще в розробці.")
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Послуги"))
 async def foots(message: types.Message, state: FSMContext):
@@ -147,11 +134,12 @@ async def foots(message: types.Message, state: FSMContext):
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://orxid.in.ua/orx/wp-content/uploads/2021/04/20200430_104000-768x576-1.jpg",
                          caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Хочеш бути тут"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("<a href='https://forms.gle/FNpJdhBPsPcQFc4c9'>Перейти за посиланням</a> ", reply_markup=keyb_main,parse_mode="HTML")
-
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="ВПО"))
 async def foots(message: types.Message, state: FSMContext):
@@ -166,10 +154,12 @@ async def foots(message: types.Message, state: FSMContext):
    # await message.answer("Даний функціонал ще в розробці", reply_markup=keyb)
     url = 'https://upravbud.info/content/uploads/2022/04/016-980x620.png'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Організації"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("Оберіть, будь ласка, категорію організацій👇",reply_markup=keyb_organizations)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Фінансові та кредитні установи"))
 async def foots(message: types.Message):
@@ -181,6 +171,7 @@ async def foots(message: types.Message):
    # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
     url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 
 @dp.message_handler(filters.Text(startswith="Громадські та благодійні організації"))
@@ -194,6 +185,7 @@ async def foots(message: types.Message, state: FSMContext):
    # await message.answer("Даний функціонал ще в розробці",reply_markup=keyb)
     url = 'https://minfin.com.ua/img/2022/85137707/0988d5c75c8fe6ca4b45d900175db854.jpeg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Міська рада"))
 async def foots(message: types.Message, state: FSMContext):
@@ -205,6 +197,7 @@ async def foots(message: types.Message, state: FSMContext):
     keyb_mr.add(but_1).add(but_2).add(but_3).add(but_4)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/%D0%BC%D1%96%D1%81%D1%8C%D0%BA%D0%B0%20%D1%80%D0%B0%D0%B4%D0%B0.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb_mr)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Освіта"))
 async def foots(message: types.Message, state: FSMContext):
@@ -219,6 +212,7 @@ async def foots(message: types.Message, state: FSMContext):
     await bot.send_photo(chat_id=message.chat.id,
                          photo="https://images.unian.net/photos/2022_09/thumb_files/400_0_1664111474-8193.jpg?r=616244",
                          caption="", reply_markup=keyb_os)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Культура"))
 async def foots(message: types.Message, state: FSMContext):
@@ -230,6 +224,7 @@ async def foots(message: types.Message, state: FSMContext):
     keyb.add(but_1).add(but_2).add(but_3).add(but_4)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/%D0%BA%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D0%B0.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Охорона здоров"))
 async def foots(message: types.Message, state: FSMContext):
@@ -243,6 +238,7 @@ async def foots(message: types.Message, state: FSMContext):
     keyb_oxz.add(but_2).add(but_1).add(but_3).add(but_4).add(but_5).add(but_6)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/ox_zd.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb_oxz)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Інші установи"))
 async def foots(message: types.Message, state: FSMContext):
@@ -254,6 +250,7 @@ async def foots(message: types.Message, state: FSMContext):
     keyb_ii.add(but_1).add(but_2).add(but_3)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/inshiys.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb_ii)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Жителю"))
 async def foots(message: types.Message, state: FSMContext):
@@ -265,16 +262,19 @@ async def foots(message: types.Message, state: FSMContext):
     keyb_ii.add(but_1).add(but_2).add(but_3).add(but_4)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/%D0%B6%D0%B8%D1%82%D0%B5%D0%BB%D1%8E.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb_ii)
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 
 
 @dp.message_handler(filters.Text(startswith="⬅️ На головну"))
 async def foots(message: types.Message, state: FSMContext):
    await message.answer("Головне меню",reply_markup=keyb_main)
+   logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Підприємства"))
 async def foots(message: types.Message, state: FSMContext):
     await message.answer("Даний функціонал ще в розробці")
+    logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 @dp.message_handler(filters.Text(startswith="Військовим"))
 async def foots(message: types.Message, state: FSMContext):
@@ -287,6 +287,7 @@ async def foots(message: types.Message, state: FSMContext):
         await message.reply_document(doc)
     else:
         await message.answer("Даний функціонал ще в розробці. ")
+        logger.info(f"Користувач - {message.from_user.first_name} написав -{message.text}")
 
 #---------------------------------------------------------------------------------
 
@@ -321,6 +322,7 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
                 data['listindex'] = 0
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex in next- {listindex} mainlist -{main_list}")
+    logger.info(f"Користувач - {query.from_user.first_name} перейшов далі на компанію -{i['Name']}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'prev')
@@ -356,6 +358,8 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex in prev - {listindex} mainlist -{main_list}")
 
+    logger.info(f"Користувач - {query.from_user.first_name} повернувся назад на компанію -{i['Name']}")
+
 
 @dp.callback_query_handler(lambda c: c.data == 'about')
 async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
@@ -369,7 +373,7 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
 #-----------------------------------------------------------------------
 @dp.callback_query_handler()
 async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
-    global main_list
+
     category = query.data.split("_")[1] # берем стрічку типу "команда_клініки" та витягуємо із неї клініки
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/"
     resp = requests.get(URL, params={'category': category})
@@ -384,11 +388,13 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
        # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\n\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    1 із {len(main_list)}\n"
         res= f"{getstring(i)}\n1 із {len(main_list)}\n"
         try:
-         await bot.send_photo(chat_id=query.message.chat.id, photo=i['PhotoURL'],caption=res,reply_markup=keyboard_prev_next)
+            await bot.send_photo(chat_id=query.message.chat.id, photo=i['PhotoURL'],caption=res,reply_markup=keyboard_prev_next)
         #await bot.send_message(chat_id=query.message.chat.id,text=res, reply_markup=keyboard_prev_next,parse_mode="HTML")
+            logger.info(f"Користувач - {query.from_user.first_name} переглянув компанію -{i['Name']}")
         except:
             print("aiogram.utils.exceptions.BadRequest: Wrong type of the web page content")
             await bot.send_message(chat_id=query.message.chat.id, text="помилка - aiogram.utils.exceptions.BadRequest", reply_markup=keyb_main)
+
 
     else:
         await bot.send_message(chat_id=query.message.chat.id,text="Нажаль ці дані відсутні, бот ще в розробці 🔧",reply_markup=keyb_main)
