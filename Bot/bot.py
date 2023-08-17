@@ -73,6 +73,9 @@ async def start(message: types.Message):
     URL = "https://vmi957205.contaboserver.net/terinfobot/ep/us/"
     resp = requests.get(URL, params={'userName': message.from_user.first_name, 'userID': message.from_user.id})
     logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
+    if resp.text == "Subs":
+        await bot.send_message(1080587853, f"Новенький підписався {message.from_user.first_name}")
+        logger.info(f"Новенький підписався - {message.from_user.first_name} {message.from_user.id}")
 
 
 @dp.message_handler(filters.Text(startswith="Заклади харчування"))
@@ -258,8 +261,9 @@ async def foots(message: types.Message, state: FSMContext):
     but_1= types.InlineKeyboardButton(text='Екстрені служби🚒', callback_data='команда_ЕкстреніСлужби')
     but_2 = types.InlineKeyboardButton(text="Зв'язок і транспорт", callback_data='команда_ЗвязокТранспорт')
     but_3 = types.InlineKeyboardButton(text='Комунальні служби🚜', callback_data='команда_КомунальніСлужби')
-    but_4 = types.InlineKeyboardButton(text='Державні установи', callback_data='команда_ДержавніУстанови')
-    keyb_ii.add(but_1).add(but_2).add(but_3).add(but_4)
+    but_4 = types.InlineKeyboardButton(text='Соціальні послуги', callback_data='команда_СоціальніПослуги')
+    but_5 = types.InlineKeyboardButton(text='Державні установи', callback_data='команда_ДержавніУстанови')
+    keyb_ii.add(but_1).add(but_2).add(but_3).add(but_4).add(but_5)
     url = 'https://vmi957205.contaboserver.net/TerInfBotPhoto/%D0%B6%D0%B8%D1%82%D0%B5%D0%BB%D1%8E.jpg'
     await bot.send_photo(chat_id=message.chat.id, photo=url, caption="", reply_markup=keyb_ii)
     logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
@@ -282,12 +286,13 @@ async def foots(message: types.Message, state: FSMContext):
 
 @dp.message_handler()
 async def foots(message: types.Message, state: FSMContext):
-    if message.text == "Файл12":
+    logger.info(f"Користувач - {message.from_user.first_name} написав -{message.text}")
+    if message.text == "Файл12": # отут додати адмінів
         doc = open('debug.txt', 'rb')
         await message.reply_document(doc)
     else:
         await message.answer("Даний функціонал ще в розробці. ")
-        logger.info(f"Користувач - {message.from_user.first_name} написав -{message.text}")
+
 
 #---------------------------------------------------------------------------------
 
@@ -409,10 +414,10 @@ if TEST_MODE:
 else:
     async def on_startup(dp):
         await bot.set_webhook(WEBHOOK_URL)
-        logger.debug("Бот запущено")
+        logger.debug("Запуск бота")
 
     async def on_shutdown(dp):
-        logger.debug('Зупиняюся..')
+        logger.debug('Зупинка бота')
         await bot.delete_webhook()
         await dp.storage.close()
         await dp.storage.wait_closed()

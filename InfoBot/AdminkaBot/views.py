@@ -31,6 +31,7 @@ def index(request):
     return JsonResponse(data, safe=False)
 
 def userstatistic(request):
+    subs = False
     userName = request.GET.get('userName')
     userID = request.GET.get('userID')
     try:
@@ -39,4 +40,5 @@ def userstatistic(request):
         # Якщо такого користувача з таким userID ще немає, то додайте його в базу
         obj = UsersStatistic(userName=userName, userTelegramID=userID)
         obj.save()
-    return HttpResponse(userName)
+        subs = "Subs"
+    return HttpResponse(subs)
