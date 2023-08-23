@@ -42,3 +42,14 @@ def userstatistic(request):
         obj.save()
         subs = "Subs"
     return HttpResponse(subs)
+
+def foohash(request):
+    param_value = request.GET.get('hash')
+    queryset = BotDataBase.objects.filter(heshTeg__icontains=param_value)
+    data = list(queryset.values())
+    return JsonResponse(data, safe=False)
+
+def get_all_users_telegram_id(request):
+    queryset = UsersStatistic.objects.all()
+    data = list(queryset.values())
+    return JsonResponse(data, safe=False)

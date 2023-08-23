@@ -1,8 +1,5 @@
 from django.contrib.auth.models import User, Group
-
-# Register your models here.
 from django.contrib import admin
-
 from .models import BotDataBase, UsersStatistic
 
 
@@ -14,7 +11,7 @@ class BotDataBaseAdmin(admin.ModelAdmin):
 
 
 class UsersStatisticAdmin(admin.ModelAdmin):
-    list_display = ("userName", "userTelegramID", "dateOfRegistration")
+    list_display = ("userName", "dateOfRegistration")
 
 admin.site.register(BotDataBase, BotDataBaseAdmin)
 admin.site.register(UsersStatistic, UsersStatisticAdmin)

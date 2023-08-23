@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^lkeemxh#*mfy7_9qz@%osp(t&0@m1gnmk^4&!b9_*+3&f#73k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['vmi957205.contaboserver.net', '0.0.0.0', 'django2', 'localhost']
