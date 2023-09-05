@@ -8,6 +8,7 @@ from keyboards.keyboadrs import keyb_main, keyb_foot, keyb_kz, keyboard_prev_nex
 from loguru import logger
 from aiogram.utils.executor import start_webhook
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram_broadcaster import MessageBroadcaster
 
 TEST_MODE = True
 
@@ -79,6 +80,16 @@ async def start(message: types.Message):
         await bot.send_message(1080587853, f"Новенький підписався {message.from_user.first_name}")
         logger.info(f"Новенький підписався - {message.from_user.first_name} {message.from_user.id}")
 
+@dp.message_handler(commands=['help'])
+async def start(message: types.Message):
+    welcomeMessageText = '''Вас вітає ТеребовляІнфоБот.\nЦе багатофункціональний чат-бот, який відображає усі локації та об’єкти Теребовлянської громади з різноманітними функціями, які будуть удосконалюватися разом з розвитком продукту.\nДетальніше про проєкт https://orxid.in.ua/TerInfoBot/\nПроєкт соціальний, та фінансується методом спільнокошту, тобто кожен може внести кошти на розвиток ініціативи.\nЯкщо ви хочете відобразити себе у боті, заповнюйте форму https://forms.gle/wq3JqVqze5YtdMTH7 і ми надішлемо деталі.\nЯкщо вам знадобиться допомога у заповненні локації, звертайтеся:\nГО ЦЦРГ
+098 151 0 251
+ngozzrg@gmail.com 
+ngozzrg.terebovlia.info  
+@Irynamifm
+Бажаємо успіхів! Разом ми сформуємо цифрову громаду!
+    '''
+    await message.answer(welcomeMessageText, parse_mode="HTML")
 
 @dp.message_handler(filters.Text(startswith="Заклади харчування"))
 async def foots(message: types.Message, state: FSMContext):
@@ -147,7 +158,8 @@ async def foots(message: types.Message, state: FSMContext):
 
 @dp.message_handler(filters.Text(startswith="Хочеш бути тут"))
 async def foots(message: types.Message, state: FSMContext):
-    await message.answer("<a href='https://forms.gle/FNpJdhBPsPcQFc4c9'>Перейти за посиланням</a> ",
+    await message.answer("<a href='https://forms.gle/FNpJdhBPsPcQFc4c9'>Перейти за посиланням</a> щоб подати дані.\n"
+                         "Дізнатися більше можна <a href='https://orxid.in.ua/TerInfoBot/'>тут</a>",
                          reply_markup=keyb_main, parse_mode="HTML")
     logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
@@ -314,14 +326,29 @@ async def foots(message: types.Message, state: FSMContext):
     if message.text == "Файл12" and message.from_user.id in conf.ADMIN_IDS:
         doc = open('debug.txt', 'rb')
         await message.reply_document(doc)
-   # elif "#" in message.text:
-    elif message.text == "broadcast" and message.from_user.id in conf.ADMIN_IDS:
-       # for item in requests.get('http://127.0.0.1:8000/ep/allid').json():
-        for item in conf.ADMIN_IDS:
-            await bot.send_message(chat_id=item['userTelegramID'], text="Вітаю це тест")
-            await bot.send_photo(chat_id=item['userTelegramID'],
-                                 photo="https://images.unian.net/photos/2022_09/thumb_files/400_0_1664111474-8193.jpg?r=616244",
-                                 caption="", reply_markup=keyb_main)
+
+    elif message.text == "Статистика":
+        URL = "https://vmi957205.contaboserver.net/terinfobot/ep/statistics/"
+        resp = requests.get(URL).json()
+        await message.answer(f"Локацій🏡 в боті - {resp[1]}, користувачів боту🙋 - {resp[0]}")
+
+    elif message.text.startswith("broadcast#") and message.from_user.id in conf.ADMIN_IDS:
+        req = requests.get('https://vmi957205.contaboserver.net/terinfobot/ep/allid/').json()
+
+        # for x in range(17, 499):
+        #     item = req[x]
+        #     await bot.send_message(chat_id=item['userTelegramID'], text="Ура! Нас уже 500🙋! І 270 локацій🏡! Запрошуємо локальний бізнес отримати місце у боті! Тисни: Хочеш бути тут?, заповнюй форму та  отримуй можливість залучити більше клієнтів! ")
+        #     logger.info(f"Оповіщення надіслано користувачу {item['userTelegramID']} ")
+        userLi = []
+
+        for i in req:
+            userLi.append(i['userTelegramID'])
+        text = message.text.split("#")[1]
+        message.text = text
+       # message.text = "Ура! Нас уже більше 500🙋! Та майже 300 локацій🏡! Запрошуємо локальний бізнес отримати місце у боті! Тисни: Хочеш бути тут?, заповнюй форму та  отримуй можливість залучити більше клієнтів! "
+        await MessageBroadcaster(chats=userLi, message=message, reply_markup=keyb_main).run()  # Run the broadcaster
+        logger.info(f"Надіслано broadcast (повідомлення всім користувачам) - {message.text}")
+
     else:
         URL = "https://vmi957205.contaboserver.net/terinfobot/ep/fhesh/"
         resp = requests.get(URL, params={'hash': message.text})
@@ -383,7 +410,10 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
                 data['listindex'] = 0
             print(f"IndexError listindex - {listindex}")
             logger.debug(f"IndexError listindex in next- {listindex} mainlist -{main_list}")
-    logger.info(f"Користувач - {query.from_user.first_name} перейшов далі на компанію -{i['Name']}")
+    #     except UnboundLocalError:
+    #         print(f"UnboundLocalError - {listindex}")
+    #         logger.debug(f"UnboundLocalError Користувач - {query.from_user.first_name} listindex in next- {listindex}")
+    # logger.info(f"Користувач - {query.from_user.first_name} перейшов далі на компанію -{i['Name']}")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'prev')
@@ -443,19 +473,21 @@ async def change_image_callback(query: types.CallbackQuery, state: FSMContext):
             data['main_list'] = resp.json()
             data['listindex'] = 0
 
-        main_list = data['main_list']
-        i = main_list[0]
-        # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\n\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    1 із {len(main_list)}\n"
-        res = f"{getstring(i)}\n1 із {len(main_list)}\n"
+        try:
+            main_list = data['main_list']
+            i = main_list[0]
+            # res = f"Назва: {i['Name']}\nОпис: {i['About']}\nАдреса: {i['address']}\n\nТел.: {i['tel']}\nГрафік: {i['work_schedule']}\nСайт:{i['SiteURL']}\n                    1 із {len(main_list)}\n"
+            res = f"{getstring(i)}\n1 із {len(main_list)}\n"
+        except:
+            logger.debug(f"помилка в  main_list = data['main_list'] i = main_list[0]")
+
         try:
             await bot.send_photo(chat_id=query.message.chat.id, photo=i['PhotoURL'], caption=res,
                                  reply_markup=keyboard_prev_next)
             # await bot.send_message(chat_id=query.message.chat.id,text=res, reply_markup=keyboard_prev_next,parse_mode="HTML")
             logger.info(f"Користувач - {query.from_user.first_name} переглянув компанію -{i['Name']}")
         except:
-            print("aiogram.utils.exceptions.BadRequest: Wrong type of the web page content")
-            await bot.send_message(chat_id=query.message.chat.id, text="помилка - aiogram.utils.exceptions.BadRequest",
-                                   reply_markup=keyb_main)
+            logger.debug(f"помилка в користувача - {query.from_user.first_name} при перегляді компанії -{i['Name']}")
 
 
     else:

@@ -1,10 +1,9 @@
 from django.shortcuts import render
-import  json
-from django.core import serializers
-# Create your views here.
 from django.http import HttpResponse, JsonResponse
 from .models import BotDataBase, UsersStatistic
-
+from django.contrib.auth.decorators import login_required
+import subprocess
+import requests
 
 def index1(request):
     db = BotDataBase.objects.all()
@@ -53,3 +52,37 @@ def get_all_users_telegram_id(request):
     queryset = UsersStatistic.objects.all()
     data = list(queryset.values())
     return JsonResponse(data, safe=False)
+
+def statistic(request):
+    queryset = UsersStatistic.objects.all()
+    records = BotDataBase.objects.all()
+    data = list((len(queryset),len(records)))
+    return JsonResponse(data, safe=False)
+
+def findForm(request):
+    param_value = request.POST.get('text')
+    if param_value == None: param_value = "ательє"
+    records = BotDataBase.objects.filter(heshTeg__icontains=param_value)
+    return render(request, "InfoBot/index.html", {'DB': records})
+
+@login_required
+def broadcast(request):
+    text = request.POST.get('text')
+
+    message = "Напишіть текст повідомлення!"
+    if text:
+        try:
+            msg = {"update_id": 443776903, "message": {"message_id": 7852, "from": {"id": 1080587853, "is_bot": False,
+                                                                                    "first_name": "Sergey",
+                                                                                    "language_code": "uk"},
+                                                       "chat": {"id": 1080587853, "first_name": "Sergey",
+                                                                "type": "private"}, "date": 1693751446,
+                                                       "text": f"broadcast#{text}"}}
+
+            URL = "https://vmi957205.contaboserver.net/prod_terinfobot"
+            resp = requests.post(url=URL, json=msg)
+
+            message= f"Повідомлення надіслано. Відповідь сервера -{resp} "
+        except subprocess.CalledProcessError as e:
+            message= f"Помилка {str(e)}"
+    return render(request, "InfoBot/broadcast.html", {'message': message})

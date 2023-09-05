@@ -8,10 +8,12 @@ class BotDataBaseAdmin(admin.ModelAdmin):
     readonly_fields = ["img_preview"]
     list_display = ("Name", "category","sequence", "town","work_schedule","tel","email","FaсebookURL","InstagramURL")
     search_fields = ['Name',"town", "category"]
+    list_editable = ('sequence',)
 
 
 class UsersStatisticAdmin(admin.ModelAdmin):
     list_display = ("userName", "dateOfRegistration")
+    list_filter = ("dateOfRegistration",)
 
 admin.site.register(BotDataBase, BotDataBaseAdmin)
 admin.site.register(UsersStatistic, UsersStatisticAdmin)
