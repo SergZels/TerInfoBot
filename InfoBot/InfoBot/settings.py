@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-^lkeemxh#*mfy7_9qz@%osp(t&0@m1gnmk^4&!b9_*+3&f#73k
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['vmi957205.contaboserver.net', '0.0.0.0', 'django2', 'localhost']
+ALLOWED_HOSTS = ['vmi957205.contaboserver.net','orxid.in.ua', '0.0.0.0', 'django2', 'localhost']
 CSRF_TRUSTED_ORIGINS = [
     'https://vmi957205.contaboserver.net',
     'http://vmi957205.contaboserver.net',
     'http://0.0.0.0',
     'https://django2',
+    'https://orxid.in.ua'
 ]
 
 # Application definition

@@ -20,4 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('terinfobot/admin/', admin.site.urls),
     path("terinfobot/ep/", include("AdminkaBot.urls")),
+    path("TInfoBot/", include("AdminkaBot.urls")),
+
 ]
