@@ -6,9 +6,9 @@ from .models import BotDataBase, UsersStatistic
 class BotDataBaseAdmin(admin.ModelAdmin):
     exclude = ('PhotoURL',)
     readonly_fields = ["img_preview"]
-    list_display = ("Name", "category","sequence", "town","work_schedule","tel","email","FaсebookURL","InstagramURL")
+    list_display = ("Name", "category","sequence", "town","work_schedule","tel",'heshTeg')
     search_fields = ['Name',"town", "category"]
-    list_editable = ('sequence',)
+    list_editable = ('sequence','heshTeg')
 
 
 class UsersStatisticAdmin(admin.ModelAdmin):
