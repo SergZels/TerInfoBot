@@ -79,7 +79,7 @@ def broadcast(request):
                                                                 "type": "private"}, "date": 1693751446,
                                                        "text": f"broadcast#{text}"}}
 
-            URL = "https://vmi957205.contaboserver.net/prod_terinfobot"
+            URL = "https://zelse.asuscomm.com/prod_terinfobot"
             resp = requests.post(url=URL, json=msg)
 
             message= f"Повідомлення надіслано. Відповідь сервера -{resp} "

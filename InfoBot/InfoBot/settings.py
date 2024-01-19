@@ -26,11 +26,11 @@ SECRET_KEY = 'django-insecure-^lkeemxh#*mfy7_9qz@%osp(t&0@m1gnmk^4&!b9_*+3&f#73k
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['vmi957205.contaboserver.net','orxid.in.ua', '0.0.0.0', 'django2', 'localhost']
+ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://vmi957205.contaboserver.net',
-    'http://vmi957205.contaboserver.net',
-    'http://0.0.0.0',
+    'http://zelse.asuscomm.com',
+    'https://zelse.asuscomm.com',
+    'http://orxid.in.ua',
     'https://django2',
     'https://orxid.in.ua'
 ]
@@ -92,8 +92,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',   # Используется PostgreSQL
         'NAME': 'postgres_789', # Имя базы данных
         'USER': 'postgres_789', # Имя пользователя
-        'PASSWORD': 'postgres_789', # Пароль пользователя
-        'HOST': 'pgdb', # Наименование контейнера для базы данных в Docker Compose
+        'PASSWORD': 'postgres_7895', # Пароль пользователя
+        'HOST': 'terinfobotpgdb2', # Наименование контейнера для базы данных в Docker Compose
         'PORT': '5432',  # Порт базы данных
     }
 }
@@ -137,7 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_ROOT = "c:/d/tmp/static/"
-STATIC_URL = 'https://vmi957205.contaboserver.net/static/'
+STATIC_URL = 'https://orxid.in.ua/InfoBotStatic/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

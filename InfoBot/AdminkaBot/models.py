@@ -37,8 +37,9 @@ class BotDataBase(models.Model):
                ]
 
     Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="")
-    PhotoURL = models.URLField(verbose_name="Url зсилка фото", max_length=200)
+    PhotoURL = models.URLField(verbose_name="Url зсилка фото", max_length=200, blank=True)
     Name = models.CharField(verbose_name="Назва", max_length=200)
+    isStandartPicture = models.BooleanField(verbose_name="Встановити стандартне зображення",default=False)
     About = models.CharField(verbose_name="Опис", max_length=400, default="")
     town = models.CharField(verbose_name="Місто", max_length=200, default="Теребовля")
     category = models.CharField(verbose_name="Категорія", max_length=300, choices=catlist)
@@ -59,18 +60,22 @@ class BotDataBase(models.Model):
 
     def save(self, *args, **kwargs):
         # Перевіряємо, чи є фото
-        if self.Photo:
-            # Зберігаємо фото
-            super().save(*args, **kwargs)
-            # Отримуємо ім'я файлу
-            filename = str(self.Photo.name)
-            filename = filename.split("/")[1]
-            # Оновлюємо поле PhotoURL
-            self.PhotoURL = f"https://vmi957205.contaboserver.net/TerInfBotPhoto/{filename}"
-            # Зберігаємо модель з оновленим PhotoURL
-            super().save(*args, **kwargs)
+        if self.isStandartPicture:
+            self.PhotoURL = f"https://orxid.in.ua/TerInfBotPhoto/TM.jpg"
+            print("standart picture")
         else:
-            super().save(*args, **kwargs)
+            if self.Photo:
+                # Зберігаємо фото
+                super().save(*args, **kwargs)
+                # Отримуємо ім'я файлу
+                filename = str(self.Photo.name)
+                filename = filename.split("/")[1]
+                # Оновлюємо поле PhotoURL
+                self.PhotoURL = f"https://orxid.in.ua/TerInfBotPhoto/{filename}"
+                # Зберігаємо модель з оновленим PhotoURL
+
+
+        super(BotDataBase,self).save(*args, **kwargs)
     class Meta:
         verbose_name_plural = 'Компанії'
         verbose_name = 'Компанії'
