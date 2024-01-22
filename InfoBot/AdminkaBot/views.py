@@ -65,6 +65,10 @@ def findForm(request):
     records = BotDataBase.objects.filter(heshTeg__icontains=param_value)
     return render(request, "InfoBot/index.html", {'DB': records})
 
+def location(request,id):
+    records = BotDataBase.objects.filter(pk=id).last()
+    return render(request, "InfoBot/locationBootstrap.html", {'Loc': records})
+
 @login_required
 def broadcast(request):
     text = request.POST.get('text')

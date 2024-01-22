@@ -81,7 +81,7 @@ class BotDataBase(models.Model):
         verbose_name = 'Компанії'
 
     def __str__(self):
-        return self.Name
+        return f'{self.pk} {self.Name}'
 
 
 class UsersStatistic(models.Model):
