@@ -4,6 +4,7 @@ from .models import BotDataBase, UsersStatistic
 
 
 class BotDataBaseAdmin(admin.ModelAdmin):
+    change_list_template = "InfoBot/locationsLINK.html"
     save_on_top = True
     #exclude = ('PhotoURL',)
     readonly_fields = ["img_preview"]
