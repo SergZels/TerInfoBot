@@ -7,7 +7,7 @@ class BotDataBaseAdmin(admin.ModelAdmin):
     change_list_template = "InfoBot/locationsLINK.html"
     save_on_top = True
     #exclude = ('PhotoURL',)
-    readonly_fields = ["img_preview"]
+    readonly_fields = ["img_preview",'location']
     list_display = ("Name", 'isStandartPicture','PhotoURL',"category","sequence", "town","work_schedule","tel",'heshTeg')
     search_fields = ['Name',"town", "category"]
     list_editable = ( 'sequence','heshTeg','isStandartPicture','PhotoURL')

@@ -33,7 +33,9 @@ class BotDataBase(models.Model):
                ('ПродажАвто','ПродажАвто'),('СільськаВелосипеди','СільськаВелосипеди'),('ТорговіЦентри','ТорговіЦентри'),
                ('АлкогольТютюн','АлкогольТютюн'),('Універсальнімагазини','Універсальнімагазини'),('ВживанийОдяг','ВживанийОдяг'),
                ('КомунальніСлужби','КомунальніСлужби'),('СоціальніПослуги','СоціальніПослуги'),('ДержавніУстанови','ДержавніУстанови'),
-               ('ІнтернетПровайдери','ІнтернетПровайдери'),('ПоліграфіяДизайн','ПоліграфіяДизайн')
+               ('ІнтернетПровайдери','ІнтернетПровайдери'),('ПоліграфіяДизайн','ПоліграфіяДизайн'),
+               ('ДорожняКартаВПО','ДорожняКартаВПО'),('КорисніЛокації','КорисніЛокації'),('ДопомогаВійськовим','ДопомогаВійськовим'),
+               ('РеабілітаційніЦентри','РеабілітаційніЦентри'),('ПсихологічнаПідтримка','ПсихологічнаПідтримка'),('ПошукРоботи','ПошукРоботи')
                ]
 
     Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="")
@@ -50,11 +52,13 @@ class BotDataBase(models.Model):
     work_schedule = models.CharField(verbose_name="Робочий графік", max_length=100, blank=True)
     email = models.EmailField(verbose_name="e-mail", max_length= 250, default="",blank=True)
     SiteURL = models.URLField(verbose_name="Сайт", max_length=300, blank=True)
-    FaсebookURL = models.URLField(verbose_name="Фейсбук", max_length=300, default="", blank=True)
+    facebookURL = models.URLField(verbose_name="Фейсбук", max_length=300, default="", blank=True)
     InstagramURL = models.URLField(verbose_name="Інстаграм", max_length=300, default="", blank=True)
     coordinates = models.CharField(verbose_name="Кординати", max_length=300, default="", blank=True)
     heshTeg = models.CharField(verbose_name="Хештеги", max_length=500, default="", blank=True)
 
+    def location (self):  # new
+        return mark_safe(f'<a href= "https://orxid.in.ua/TerebInfoBot/location/{self.pk}" > Локація на сайті </a>')
     def img_preview(self):  # new
         return mark_safe(f'<img src = "{self.PhotoURL}" width = "300"/>')
 
