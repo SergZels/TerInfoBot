@@ -38,7 +38,7 @@ class BotDataBase(models.Model):
                ('РеабілітаційніЦентри','РеабілітаційніЦентри'),('ПсихологічнаПідтримка','ПсихологічнаПідтримка'),('ПошукРоботи','ПошукРоботи')
                ]
 
-    Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="")
+    Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="", blank=True)
     PhotoURL = models.URLField(verbose_name="Url зсилка фото", max_length=200, blank=True)
     Name = models.CharField(verbose_name="Назва", max_length=200)
     isStandartPicture = models.BooleanField(verbose_name="Встановити стандартне зображення",default=False)

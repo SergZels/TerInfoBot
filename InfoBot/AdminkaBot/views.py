@@ -1,9 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import BotDataBase, UsersStatistic
+from .forms import ClientForm
 from django.contrib.auth.decorators import login_required
 import subprocess
 import requests
+
+
+def clientForm(request):
+    if request.method == 'POST':
+        form = ClientForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('success')  # Перенаправити на сторінку успіху
+    else:
+        form = ClientForm()
+    return render(request, "InfoBot/ClientForm.html",{'form':form})
 
 def index1(request):
     db = BotDataBase.objects.all()
