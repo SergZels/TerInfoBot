@@ -12,7 +12,7 @@ def clientForm(request):
         form = ClientForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponse('success')  # Перенаправити на сторінку успіху
+            return render(request, "InfoBot/ClientFormSucsses.html")
     else:
         form = ClientForm()
     return render(request, "InfoBot/ClientForm.html",{'form':form})
@@ -37,7 +37,7 @@ def index2(request):
 
 def index(request):
     param_value = request.GET.get('category')
-    queryset = BotDataBase.objects.filter(category=param_value).order_by('sequence')
+    queryset = BotDataBase.objects.filter(category=param_value,isPublished = True).order_by('sequence')
     data = list(queryset.values())
     return JsonResponse(data, safe=False)
 
@@ -56,7 +56,7 @@ def userstatistic(request):
 
 def foohash(request):
     param_value = request.GET.get('hash')
-    queryset = BotDataBase.objects.filter(heshTeg__icontains=param_value)
+    queryset = BotDataBase.objects.filter(heshTeg__icontains=param_value,isPublished = True)
     data = list(queryset.values())
     return JsonResponse(data, safe=False)
 
@@ -73,12 +73,12 @@ def statistic(request):
 
 def findForm(request):
     param_value = request.POST.get('text')
-    if param_value == None: param_value = "ательє"
-    records = BotDataBase.objects.filter(heshTeg__icontains=param_value)
+    if param_value == None: param_value = "Орхід"
+    records = BotDataBase.objects.filter(heshTeg__icontains=param_value,isPublished = True)
     return render(request, "InfoBot/index.html", {'DB': records})
 
 def location(request,id):
-    records = BotDataBase.objects.filter(pk=id).last()
+    records = BotDataBase.objects.filter(pk=id,isPublished = True).last()
     return render(request, "InfoBot/locationBootstrap.html", {'Loc': records})
 
 @login_required

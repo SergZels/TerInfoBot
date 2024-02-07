@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Теребовля Інфо Бот</title>
+    <style>
+         body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+             background-image: url('https://img.freepik.com/free-vector/white-3d-paper-style-background_23-2148084377.jpg?w=1480&t=st=1705930675~exp=1705931275~hmac=326160f0cf366a9d5badaa1366f2263b203f273770326a1d0aa3638aa87293f0');
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: red;  /* rgba(0, 0, 0, 0.5); */
+            justify-content: center;
+            align-items: center;
+        }
+         .modal {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 80%;
+            text-align: left;
+        }
+
+             #button {
+            background-color: #28a745;
+            color: #fff;
+            font-size: 12px;
+             border-radius: 5px;
+            transition: font-size 0.4s;
+        }
+          #button:hover {
+            background-color: #52F772;
+            color: #fff;
+            font-size: 85%;
+
+            cursor: pointer;
+        }
+
+        .form-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form-label {
+        margin-right: 1px;  /* Задаємо відступ для лейблів зправа */
+    }
+
+    .form-field {
+        flex-grow: 1;  /* Займає доступне простір внутрішнього контейнера */
+    }
+    #linkB {
+        text-align: center;
+        margin-top: 20px; /* опціонально, для відступу між заголовком та кнопкою */
+    }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+<h1>Дякуємо! Ваші дані будуть опубліковані після модерації!</h1>
+    <a id="linkB" href="https://orxid.in.ua/TerInfoBot/"><button id = "button" type="button">Відвідати портал</button></a>
+</div>
+</body>
+</html>

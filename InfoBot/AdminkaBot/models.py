@@ -38,7 +38,7 @@ class BotDataBase(models.Model):
                ('РеабілітаційніЦентри','РеабілітаційніЦентри'),('ПсихологічнаПідтримка','ПсихологічнаПідтримка'),('ПошукРоботи','ПошукРоботи')
                ]
 
-    Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="", blank=True)
+    Photo = models.ImageField(verbose_name="Фото", upload_to="photo/", default="")
     PhotoURL = models.URLField(verbose_name="Url зсилка фото", max_length=200, blank=True)
     Name = models.CharField(verbose_name="Назва", max_length=200)
     isStandartPicture = models.BooleanField(verbose_name="Встановити стандартне зображення",default=False)
@@ -55,7 +55,8 @@ class BotDataBase(models.Model):
     facebookURL = models.URLField(verbose_name="Фейсбук", max_length=300, default="", blank=True)
     InstagramURL = models.URLField(verbose_name="Інстаграм", max_length=300, default="", blank=True)
     coordinates = models.CharField(verbose_name="Кординати", max_length=300, default="", blank=True)
-    heshTeg = models.CharField(verbose_name="Хештеги", max_length=500, default="", blank=True)
+    heshTeg = models.CharField(verbose_name="Хештеги", max_length=600, default="", blank=True)
+    isPublished =models.BooleanField(default=False,verbose_name="Опубліковано")
 
     def location (self):  # new
         return mark_safe(f'<a href= "https://orxid.in.ua/TerebInfoBot/location/{self.pk}" > Локація на сайті </a>')
