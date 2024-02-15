@@ -27,6 +27,24 @@ def index1(request):
 
     return HttpResponse(response)
 
+# def temp(request):
+#     db = BotDataBase.objects.all()
+#     response=''
+#     for obj in db:
+#         if obj.facebookURL=='https://forms.gle/8WBHyVM5DzgZUFPQ6':
+#             response+=f'Fase {obj.Name}<br>'
+#             obj.facebookURL = 'https://orxid.in.ua/TerebInfoBot/addlocation/'
+#             obj.save()
+#         if obj.InstagramURL=='https://forms.gle/8WBHyVM5DzgZUFPQ6':
+#             response+=f'Insta {obj.Name}<br>'
+#             obj.InstagramURL = 'https://orxid.in.ua/TerebInfoBot/addlocation/'
+#             obj.save()
+#
+#
+#
+#     return HttpResponse(response)
+
+
 def index2(request):
     queryset = BotDataBase.objects.all()
     data = list(queryset.values())
@@ -79,6 +97,7 @@ def findForm(request):
 
 def location(request,id):
     records = BotDataBase.objects.filter(pk=id,isPublished = True).last()
+    records.work_schedule=records.work_schedule.replace("#", " ")
     return render(request, "InfoBot/locationBootstrap.html", {'Loc': records})
 
 @login_required

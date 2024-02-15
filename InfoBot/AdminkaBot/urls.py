@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("2/", views.index2, name="index2"),
     path("1/", views.index1, name="index1"),
+    #path("temp/", views.temp, name="temp"),
     path("broadcast/", views.broadcast, name="bro"),
     path("addlocation/", views.clientForm, name="addlocation"),
     path("us/", views.userstatistic, name="us"),

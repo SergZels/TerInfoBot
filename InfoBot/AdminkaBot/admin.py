@@ -8,9 +8,9 @@ class BotDataBaseAdmin(admin.ModelAdmin):
     save_on_top = True
     #exclude = ('PhotoURL',)
     readonly_fields = ["img_preview",'location']
-    list_display = ("Name", 'isStandartPicture','PhotoURL',"category","sequence", "town","work_schedule","tel",'heshTeg','isPublished')
+    list_display = ("Name","category","sequence", "town","work_schedule","tel",'heshTeg','isPublished')
     search_fields = ['Name',"town", "category"]
-    list_editable = ( 'sequence','heshTeg','isStandartPicture','PhotoURL')
+    list_editable = ( 'sequence','heshTeg')
 
 
 class UsersStatisticAdmin(admin.ModelAdmin):

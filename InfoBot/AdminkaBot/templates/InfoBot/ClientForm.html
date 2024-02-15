@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Теребовля Інфо Бот</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
          body {
             display: flex;
@@ -33,6 +34,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             max-width: 80%;
             text-align: left;
+            background:  linear-gradient(to top  , #EAEA51,#88B8EF );
         }
 
              #button {
@@ -51,6 +53,9 @@
         display: flex;
         justify-content: space-between;
     }
+    input{
+    padding: 5px;
+    }
 
     .form-label {
         margin-right: 1px;  /* Задаємо відступ для лейблів зправа */
@@ -59,6 +64,16 @@
     .form-field {
         flex-grow: 1;  /* Займає доступне простір внутрішнього контейнера */
     }
+    	     .flex-container {
+            display: flex;
+            justify-content: left;
+            align-content: center;
+
+        }
+
+        img{
+        margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -72,45 +87,99 @@
            <td><label class="form-label" for="{{ form.Photo.id_for_label }}">{{ form.Photo.label }}: </label> </td>
            <td>{{ form.Photo }}</td>
         </tr>
-             <tr>
-           <td><label class="form-label" for="{{ form.Name.id_for_label }}">{{ form.Name.label }}: </label> </td>
-           <td>{{ form.Name }}</td>
+         <tr>
+
+            <td><label class="form-label" for="{{ form.Name.id_for_label }}">{{ form.Name.label }}: </label> </td>
+            <td>{{ form.Name }}</td>
+            <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Якийсь текст Якийсь текст Якийсь текст Якийсь текст </p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
+
+
         </tr>
+
              <tr>
            <td><label class="form-label" for="{{ form.About.id_for_label }}">{{ form.About.label }}: </label> </td>
            <td>{{ form.About }}</td>
+                 <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
              <tr>
            <td><label class="form-label" for="{{ form.address.id_for_label }}">{{ form.address.label }}: </label> </td>
            <td>{{ form.address }}</td>
+                  <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
              <tr>
            <td><label class="form-label" for="{{ form.tel.id_for_label }}">{{ form.tel.label }}: </label> </td>
            <td>{{ form.tel }}</td>
+                  <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
              <tr>
            <td><label class="form-label" for="{{ form.work_schedule.id_for_label }}">{{ form.work_schedule.label }}: </label> </td>
            <td>{{ form.work_schedule }}</td>
+                  <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
              <tr>
            <td><label class="form-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}: </label> </td>
            <td>{{ form.email }}</td>
+                  <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
                    <tr>
            <td><label class="form-label" for="{{ form.SiteURL.id_for_label }}">{{ form.SiteURL.label }}: </label> </td>
            <td>{{ form.SiteURL }}</td>
+                        <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
                    <tr>
            <td><label class="form-label" for="{{ form.facebookURL.id_for_label }}">{{ form.facebookURL.label }}: </label> </td>
            <td>{{ form.facebookURL}}</td>
+                        <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
                       <tr>
            <td><label class="form-label" for="{{ form.InstagramURL.id_for_label }}">{{ form.InstagramURL.label }}: </label> </td>
            <td>{{ form.InstagramURL}}</td>
+                           <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
                       <tr>
            <td><label class="form-label" for="{{ form.heshTeg.id_for_label }}">{{ form.heshTeg.label }}: </label> </td>
            <td>{{ form.heshTeg}}</td>
+                           <td><div x-data="{status:false}" class="flex-container">
+                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
+               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
         </table>
         <button id = "button" type="submit">Надіслати</button>

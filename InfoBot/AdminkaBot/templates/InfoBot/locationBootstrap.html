@@ -17,6 +17,17 @@
       justify-content: center;
       height: 100vh;
     }
+    .imgc{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    transition: width 0.4s, height 0.4s;
+    }
+     .imgc:hover{
+    width: 44px;
+    height: 44px;
+
+    }
   </style>
 
 </head>
@@ -25,11 +36,12 @@
 <div class="container">
   <div class="row">
     <!-- Зона для фото (зліва) -->
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12 ">
       <img src="{{ Loc.PhotoURL }}" alt="Your Photo" class="img-fluid">
     </div>
     <!-- Зона для інформації (справа) -->
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12 ">
+     <div class="table-responsive">
       <table class="table">
         <tr>
           <th scope="col"><h2>{{ Loc.Name }}</h2></th>
@@ -39,10 +51,15 @@
         <tr> <td><strong>Адреса: </strong>{{ Loc.address  }}</td> </tr>
         {% if Loc.tel %}<tr> <td><strong>Телефон: </strong>{{ Loc.tel  }}</td> </tr>{% endif %}
         <tr> <td><strong>Розклад: </strong>{{ Loc.work_schedule  }}</td> </tr>
-          {% if Loc.SiteURL %}<tr> <td><strong>Сайт: </strong><a href="{{ Loc.SiteURL }}">{{ Loc.SiteURL }}</a></strong></td> </tr>{% endif %}
-         {% if Loc.InstagramURL %}<tr> <td><strong> <a href="{{ Loc.InstagramURL }}" class="LINK1">Instagram</a></strong></td> </tr>{% endif %}
-         {% if Loc.facebookURL %} <tr> <td><strong> <a href="{{ Loc.facebookURL }}" class="LINK1">Facebook</a></strong></td> </tr>{% endif %}
+          {% if Loc.SiteURL %}<tr> <td><strong></strong><a href="{{ Loc.SiteURL }}" target="_blank"><img class="imgc" src="https://orxid.in.ua/InfoBotStatic/5602732.png" ></a></strong>{% endif %}
+         {% if Loc.InstagramURL %}<strong> <a href="{{ Loc.InstagramURL }}" class="LINK1" target="_blank">
+        <img class="imgc" src="https://orxid.in.ua/InfoBotStatic/Instagram-Icon.png" ></a></strong>
+        {% endif %}
+         {% if Loc.facebookURL %} <strong> <a href="{{ Loc.facebookURL }}" class="LINK1" target="_blank">
+        <img class="imgc" src="https://orxid.in.ua/InfoBotStatic/Facebook.png" ></a></strong></td> </tr>
+        {% endif %}
       </table>
+     </div>
     </div>
   </div>
 </div>
