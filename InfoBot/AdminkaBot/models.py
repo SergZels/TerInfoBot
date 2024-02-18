@@ -66,8 +66,8 @@ class BotDataBase(models.Model):
     def save(self, *args, **kwargs):
         # Перевіряємо, чи є фото
         if self.isStandartPicture:
-            self.PhotoURL = f"https://orxid.in.ua/TerInfBotPhoto/TM.jpg"
-            print("standart picture")
+            self.PhotoURL = f"https://orxid.in.ua/TerInfBotPhoto/Standart.jpg"
+
         else:
             if self.Photo:
                 # Зберігаємо фото

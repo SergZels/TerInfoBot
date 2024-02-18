@@ -40,7 +40,9 @@
              #button {
             background-color: #28a745;
             color: #fff;
-            transition: font-size 0.4s;
+            transition: font-size 0.5s;
+            margin-left: 20px;
+            border-radius: 5px;
         }
           #button:hover {
             background-color: #52F772;
@@ -74,6 +76,7 @@
         img{
         margin: 10px;
         }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body>
@@ -86,14 +89,19 @@
         <tr>
            <td><label class="form-label" for="{{ form.Photo.id_for_label }}">{{ form.Photo.label }}: </label> </td>
            <td>{{ form.Photo }}</td>
+                 <td><div x-data="{status:false}" class="flex-container">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Якісне фото локації, ОДИН файл, розмір: до 5Мб, формат: jpg, png.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
+               </div>
+            </td>
         </tr>
          <tr>
 
             <td><label class="form-label" for="{{ form.Name.id_for_label }}">{{ form.Name.label }}: </label> </td>
             <td>{{ form.Name }}</td>
             <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Якийсь текст Якийсь текст Якийсь текст Якийсь текст </p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Обов'язково; офіційна, впізнавана назва локації: магазину, кафе, послуги, ФОПа тощо</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
 
@@ -104,8 +112,8 @@
            <td><label class="form-label" for="{{ form.About.id_for_label }}">{{ form.About.label }}: </label> </td>
            <td>{{ form.About }}</td>
                  <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Обов'язково; коротко опишіть Вашу локацію: які послуги чи товари, чим особливі, щоб користувач міг розуміти про що це, до 30 слів.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -113,8 +121,8 @@
            <td><label class="form-label" for="{{ form.address.id_for_label }}">{{ form.address.label }}: </label> </td>
            <td>{{ form.address }}</td>
                   <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Обов'язково; вкажіть повну адресу об'єкту, наприклад, м. Теребовля, вул. Шевченка, 8.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -122,8 +130,8 @@
            <td><label class="form-label" for="{{ form.tel.id_for_label }}">{{ form.tel.label }}: </label> </td>
            <td>{{ form.tel }}</td>
                   <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Обов'язково; вкажіть актуальний робочий номер компанії, можна декілька.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -131,8 +139,8 @@
            <td><label class="form-label" for="{{ form.work_schedule.id_for_label }}">{{ form.work_schedule.label }}: </label> </td>
            <td>{{ form.work_schedule }}</td>
                   <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; вкажіть графік діяльності, наприклад Пн-Пт: 08:00-16:00, Обід: 13:00-14:00, якщо не хочете відображати ці дані, пропустіть.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -140,8 +148,8 @@
            <td><label class="form-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}: </label> </td>
            <td>{{ form.email }}</td>
                   <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; якщо немає або не хочете відображення даного рядку, пропустіть.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -149,8 +157,8 @@
            <td><label class="form-label" for="{{ form.SiteURL.id_for_label }}">{{ form.SiteURL.label }}: </label> </td>
            <td>{{ form.SiteURL }}</td>
                         <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; скопіюйте та вставте лінк на сайт вашої локації, якщо немає, пропустіть.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -158,8 +166,8 @@
            <td><label class="form-label" for="{{ form.facebookURL.id_for_label }}">{{ form.facebookURL.label }}: </label> </td>
            <td>{{ form.facebookURL}}</td>
                         <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; скопіюйте та вставте лінк на сторінку або групу у соціальній мережі фейсбук, якщо немає, пропустіть.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
@@ -167,22 +175,27 @@
            <td><label class="form-label" for="{{ form.InstagramURL.id_for_label }}">{{ form.InstagramURL.label }}: </label> </td>
            <td>{{ form.InstagramURL}}</td>
                            <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; скопіюйте та вставте лінк на інстаграм профіль у соціальній мережі інстаграм, якщо немає, пропустіть.</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
-                      <tr>
+             <tr>
            <td><label class="form-label" for="{{ form.heshTeg.id_for_label }}">{{ form.heshTeg.label }}: </label> </td>
            <td>{{ form.heshTeg}}</td>
-                           <td><div x-data="{status:false}" class="flex-container">
-                <p x-show="status" x-transition.duration.800ms> Text vdvdvsdv dvsddsv sdvsdvv sdvsdv</p>
-               <img @click="status=!status" src="https://www.freeiconspng.com/thumbs/help-icon/help-icon-16.png" width="20" height="20">
+            <td><div x-data="{status:false}" class="flex-container">
+                <p x-cloak x-show="status" x-transition.duration.800ms>Не обов'язково; впишіть ключові слова через кому, завдяки яким вас можна буде знайти, напр.: школа, ательє, ремонт, піца, суші тощо</p>
+               <img @click="status=!status" src="https://orxid.in.ua/InfoBotStatic/help-icon-17005.png" width="20" height="20">
                </div>
             </td>
         </tr>
+
         </table>
-        <button id = "button" type="submit">Надіслати</button>
+         <div class="flex-container"  x-data="{status:false}">
+         <label for="scales">Даю згоду на обробку персональних даних</label>
+         <input @click="status=!status" type="checkbox" id="scales" name="scales" />
+        <button id = "button" type="submit" x-cloak x-show="status" x-transition.duration.800ms>Надіслати</button>
+             </div>
     </form>
 </div>
 </body>

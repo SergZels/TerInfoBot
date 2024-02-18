@@ -31,16 +31,10 @@ def index1(request):
 #     db = BotDataBase.objects.all()
 #     response=''
 #     for obj in db:
-#         if obj.facebookURL=='https://forms.gle/8WBHyVM5DzgZUFPQ6':
-#             response+=f'Fase {obj.Name}<br>'
-#             obj.facebookURL = 'https://orxid.in.ua/TerebInfoBot/addlocation/'
+#         if obj.PhotoURL=='https://orxid.in.ua/TerInfBotPhoto/TM.jpg':
+#             response+=f'Photo {obj.Name}<br>'
+#             obj.PhotoURL = 'https://orxid.in.ua/TerInfBotPhoto/Standart.jpg'
 #             obj.save()
-#         if obj.InstagramURL=='https://forms.gle/8WBHyVM5DzgZUFPQ6':
-#             response+=f'Insta {obj.Name}<br>'
-#             obj.InstagramURL = 'https://orxid.in.ua/TerebInfoBot/addlocation/'
-#             obj.save()
-#
-#
 #
 #     return HttpResponse(response)
 
