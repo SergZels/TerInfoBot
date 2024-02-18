@@ -1,0 +1,25 @@
+{% extends 'InfoBot/tamplate.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="feaures">
+    <h1>{{ pageName }}</h1>
+
+        {% for r in DB %}
+         <img src="{{ r.PhotoURL }}" alt="Image">
+            <h2>{{ r.id }} {{ r.Name }}</h2>
+            <p>{{ r.About }}</p>
+             <p>{{ r.town }} {{ r.address }}</p>
+           <p>{{ r.tel }} {{ r.work_schedule }}</p>
+            <p>{{ r.SiteURL }}</p><br><br>
+
+        {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+wheel
+django
+gunicorn
+psycopg2-binary
+Pillow
+requests

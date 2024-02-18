@@ -1,0 +1,40 @@
+body {
+color: white;
+text-align: center;
+background-image: url(fon.jpg);
+background-size: cover;
+background-position: top center;
+background-attachment: fixed;
+}
+table,th,td{
+    border: 1px solid white;
+    text-align:center;
+  }
+  
+  th,td{
+     padding:10px;
+     font-size:20px;
+  }
+  caption{
+    font-size:40px;
+    color: red;
+  }
+  .tcont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: 200vh; /* Налаштуйте висоту відповідно до вашої потреби */
+  }
+
+      <style>
+        .LINK1 {
+        margin: 1px 10px !important;
+        color: #0D97F6 !important;
+        transition: font-size 0.3s;
+        }
+
+        .LINK1:hover {
+    color: #C2E2F9 !important; /* Червоний колір при наведенні */
+    text-decoration: underline; /* Підкреслення тексту при наведенні (необов'язково) */
+    font-size: 120%;
+    </style>

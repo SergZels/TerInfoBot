@@ -1,0 +1,5 @@
+wheel
+aiogram==2.25.1
+loguru
+requests
+aiogram-broadcaster
