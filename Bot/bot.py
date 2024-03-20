@@ -10,7 +10,7 @@ from aiogram.utils.executor import start_webhook
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram_broadcaster import MessageBroadcaster
 
-TEST_MODE = True
+TEST_MODE = False
 
 if conf.VPS:
     TEST_MODE = False
@@ -258,7 +258,7 @@ async def foots(message: types.Message, state: FSMContext):
 
 @dp.message_handler(filters.Text(startswith="Хочеш бути тут"))
 async def foots(message: types.Message, state: FSMContext):
-    await message.answer("<a href='https://forms.gle/FNpJdhBPsPcQFc4c9'>Перейти за посиланням</a> щоб подати дані.\n", reply_markup=keyb_main, parse_mode="HTML")
+    await message.answer("<a href='https://orxid.in.ua/TerebInfoBot/addlocation/'>Перейти за посиланням</a> щоб подати дані.\n", reply_markup=keyb_main, parse_mode="HTML")
     logger.info(f"Користувач - {message.from_user.first_name} натиснув кнопку -{message.text}")
 
 

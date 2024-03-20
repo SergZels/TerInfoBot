@@ -94,6 +94,13 @@ def location(request,id):
     records.work_schedule=records.work_schedule.replace("#", " ")
     return render(request, "InfoBot/locationBootstrap.html", {'Loc': records})
 
+def locationHextegs(request,id):
+    records = BotDataBase.objects.filter(pk=id).last()
+    if records:
+        return HttpResponse(f'{records.heshTeg}')
+    else:
+        return HttpResponse('Локація відсутня')
+
 @login_required
 def broadcast(request):
     text = request.POST.get('text')

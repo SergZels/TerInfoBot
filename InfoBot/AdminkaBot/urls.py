@@ -11,6 +11,7 @@ urlpatterns = [
     path("addlocation/", views.clientForm, name="addlocation"),
     path("us/", views.userstatistic, name="us"),
     path("location/<str:id>", views.location, name="location"),
+    path("locationHeshTags/<str:id>", views.locationHextegs, name="locationHeshTags"),
     path("fhesh/", views.foohash, name="fhash"),
     path('allid/', views.get_all_users_telegram_id, name='id'),
     path('statistics/', views.statistic, name='statistic'),

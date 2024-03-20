@@ -13,7 +13,7 @@
     body {
       display: flex;
       align-items: center;
-      background-image: url('https://img.freepik.com/free-vector/white-3d-paper-style-background_23-2148084377.jpg?w=1480&t=st=1705930675~exp=1705931275~hmac=326160f0cf366a9d5badaa1366f2263b203f273770326a1d0aa3638aa87293f0');
+      /*  background-image: url('https://img.freepik.com/free-vector/white-3d-paper-style-background_23-2148084377.jpg?w=1480&t=st=1705930675~exp=1705931275~hmac=326160f0cf366a9d5badaa1366f2263b203f273770326a1d0aa3638aa87293f0');*/
       justify-content: center;
       height: 100vh;
     }
@@ -51,13 +51,13 @@
         <tr> <td><strong>Адреса: </strong>{{ Loc.address  }}</td> </tr>
         {% if Loc.tel %}<tr> <td><strong>Телефон: </strong>{{ Loc.tel  }}</td> </tr>{% endif %}
         <tr> <td><strong>Розклад: </strong>{{ Loc.work_schedule  }}</td> </tr>
-          {% if Loc.SiteURL %}<tr> <td><strong></strong><a href="{{ Loc.SiteURL }}" target="_blank"><img class="imgc" src="https://orxid.in.ua/InfoBotStatic/5602732.png" ></a></strong>{% endif %}
+          <tr><td>{% if Loc.SiteURL %} <strong></strong><a href="{{ Loc.SiteURL }}" target="_blank"><img class="imgc" src="https://orxid.in.ua/InfoBotStatic/5602732.png" ></a></strong>{% endif %}
          {% if Loc.InstagramURL %}<strong> <a href="{{ Loc.InstagramURL }}" class="LINK1" target="_blank">
         <img class="imgc" src="https://orxid.in.ua/InfoBotStatic/Instagram-Icon.png" ></a></strong>
         {% endif %}
          {% if Loc.facebookURL %} <strong> <a href="{{ Loc.facebookURL }}" class="LINK1" target="_blank">
-        <img class="imgc" src="https://orxid.in.ua/InfoBotStatic/Facebook.png" ></a></strong></td> </tr>
-        {% endif %}
+        <img class="imgc" src="https://orxid.in.ua/InfoBotStatic/Facebook.png" ></a></strong>
+        {% endif %}</td> </tr>
       </table>
      </div>
     </div>
