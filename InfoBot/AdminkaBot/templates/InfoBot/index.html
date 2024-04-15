@@ -37,12 +37,17 @@
     color: #C2E2F9 !important; /* Червоний колір при наведенні */
     text-decoration: underline; /* Підкреслення тексту при наведенні (необов'язково) */
     font-size: 120%;
+
+.bg-custom-color {
+    background-color: #F47C20; /* Ваш власний колір */
+}
+
     </style>
 
   
 </head>
 <body>
-  
+  <!--
   <section data-bs-version="5.1" class="menu menu1 cid-tJGsCG1vVL" once="menu" id="menu01-1">
 	
 
@@ -78,40 +83,41 @@
 </section>
 
 <section data-bs-version="5.1" class="form1 cid-tOqD7NHxty" id="form01-b">
-	
+-->
 
-	
 
-	<div class="container-fluid">
+	<div class="container-fluid" >
 		<div class="row content-wrapper justify-content-center">
 			<div class="col-lg-7 mbr-form">
+                <!--
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<h5 class="mbr-section-title mbr-fonts-style mb-5 display-3"><strong>Введіть ключове слово для пошуку</strong></h5>
 				</div>
-
+                   -->
 				<div class="text-wrapper align-left">
-					<!--Formbuilder Form-->
+
 					<form action="/TerebInfoBot/company/" method="POST" class="mbr-form form-with-styler" data-verified="">
                         {% csrf_token %}
-						<div class="row">
-							
-							<div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
-								Oops...! some problem!
-							</div>
+						<div class="row m-1 p-1">
+
 						</div>
 						<div class="dragArea row">
 							<div data-for="text" class="col-lg-6 col-md-6 col-sm-12 form-group">
 								<input type="text" name="text" placeholder="Ключове слово" data-form-field="text" class="form-control display-7" value="" id="hash">
 							</div>
-							<div class="col-auto mbr-section-btn"><button type="submit" class="w-100 w-100 w-100 w-100 w-100 w-100 btn btn-secondary display-7">Пошук</button></div>
+							<div class="col-auto mbr-section-btn" style="color: #F47C20;">
+                              <button type="submit" class="w-100 w-100 w-100 w-100 w-100 w-100 btn btn-dark display-7" >Пошук</button></div>
 						</div>
 					</form>
-					<!--Formbuilder Form-->
+
 				</div>
 			</div>
 		</div>
 	</div>
-</section>
+
+<!--</section>-->
+
+
 
 <section data-bs-version="5.1" class="slider1 mbr-embla cid-tOptXJeaAH" id="slider01-5">
 
@@ -124,27 +130,27 @@
             <div class="embla__container">
               {% for r in DB %}
               <div class="embla__slide slider-image item" style="margin-left: 1rem; margin-right: 1rem;">
-                <div class="slide-content">
+                <div class="slide-content" style="background-color: #F47C20;">
                   <div class="item-wrapper">
                     <div class="item-img">
                       <img src="{{ r.PhotoURL }}" alt="Mobirise Website Builder">
                     </div>
                   </div>
                   <div class="item-content">
-                    <h4 class="item-title mbr-fonts-style mb-2 text-center" >
+                    <h4 class="item-title mbr-fonts-style mb-2 text-center" style="color: #000000;">
                      {{ r.Name }}
                     </h4>
 
-                    <h6 class="mbr-text mbr-fonts-style">
+                    <h6 class="mbr-text mbr-fonts-style" style="color: #000000;">
                       <strong>Опис: </strong>{{ r.About }}<br>
                      <strong>Адрес: </strong> {{ r.address }}<br>
                      {% if r.tel %} <strong>Телефон: </strong> {{ r.tel }}<br>{% endif %}
                      {% if r.work_schedule %}  <strong>Графік: </strong>{{ r.work_schedule }}<br>{% endif %}
                      </h6>
                      <h5 class="text-center text-primary"  >
-                     {% if r.SiteURL %}<strong> <a href="{{ r.SiteURL }}" class="LINK1">Сайт</a></strong>{% endif %}
-                     {% if r.InstagramURL %}<strong> <a href="{{ r.InstagramURL }}" class="LINK1">Instagram</a></strong>{% endif %}
-                     {% if r.facebookURL  %}<strong> <a href="{{ r.facebookURL  }}" class="LINK1">Facebook</a></strong>{% endif %}
+                     {% if r.SiteURL %}<strong> <a href="{{ r.SiteURL }}" class="LINK1" target="_blank">Сайт</a></strong>{% endif %}
+                     {% if r.InstagramURL %}<strong> <a href="{{ r.InstagramURL }}" class="LINK1" target="_blank">Instagram</a></strong>{% endif %}
+                     {% if r.facebookURL  %}<strong> <a href="{{ r.facebookURL  }}" class="LINK1" target="_blank">Facebook</a></strong>{% endif %}
                      </h5>
 
                   </div>
@@ -169,7 +175,7 @@
   </div>
 </section>
 
-
+<!--
 <section data-bs-version="5.1" class="footer4 cid-tOqCR0l7Jk" once="footers" id="footer04-a">
 
     
@@ -186,7 +192,7 @@
         </div>
     </div>
 </section>
-
+-->
 
 <script src="{% static 'InfoBot/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'InfoBot/assets/smoothscroll/smooth-scroll.js' %}"></script>

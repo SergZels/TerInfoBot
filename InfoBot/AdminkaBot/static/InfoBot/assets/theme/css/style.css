@@ -7,7 +7,7 @@ body {
   font-style: normal;
   line-height: 1.5;
   font-weight: 400;
-  color: #232323;
+  color: #232323; /*#f47c20*/
   position: relative;
 }
 
@@ -20,14 +20,14 @@ button {
 .carousel-control {
   background-color: #edefea !important;
   opacity: 0.8 !important;
-  color: #464845 !important;
+  color: #f47c20 !important;
   border-color: #edefea !important;
 }
 
 .carousel .close,
 .modalWindow .close {
   background-color: #edefea !important;
-  color: #464845 !important;
+  color: #f47c20 !important;
   border-color: #edefea !important;
   opacity: 0.8 !important;
 }
@@ -39,7 +39,7 @@ button {
 
 .carousel-indicators li {
   background-color: #edefea !important;
-  border: 2px solid #464845 !important;
+  border: 2px solid #f47c20 !important;
 }
 
 .carousel-indicators li:hover,

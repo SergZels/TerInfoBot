@@ -32,6 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://zelse.asuscomm.com',
     'http://orxid.in.ua',
     'https://django2',
+    "https://terebovlia.info",
     'https://orxid.in.ua'
 ]
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+  #  'corsheaders',
     'AdminkaBot.apps.AdminkabotConfig',
 ]
 
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+   # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -59,6 +62,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'InfoBot.urls'
 X_FRAME_OPTIONS = 'ALLOWALL'
+CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://terebovlia.info",
+    "https://orxid.in.ua",
+]
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

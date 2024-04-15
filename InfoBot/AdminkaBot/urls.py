@@ -16,6 +16,6 @@ urlpatterns = [
     path('allid/', views.get_all_users_telegram_id, name='id'),
     path('statistics/', views.statistic, name='statistic'),
     path("company/", views.findForm, name="company"),
-
+    path('export/', views.export_to_csv, name='export_to_csv'),
 
 ]

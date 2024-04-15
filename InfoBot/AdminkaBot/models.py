@@ -84,6 +84,7 @@ class BotDataBase(models.Model):
     class Meta:
         verbose_name_plural = 'Компанії'
         verbose_name = 'Компанії'
+       # db_table = 'AdminkaBot_botdatabase2'
 
     def __str__(self):
         return f'{self.pk} {self.Name}'

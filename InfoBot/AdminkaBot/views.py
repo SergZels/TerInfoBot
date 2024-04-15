@@ -5,6 +5,24 @@ from .forms import ClientForm
 from django.contrib.auth.decorators import login_required
 import subprocess
 import requests
+from django.db import connection
+import csv
+@login_required
+def export_to_csv(request):
+   # table_name = BotDataBase._meta.db_table
+    with connection.cursor() as cursor:
+        cursor.execute(f'SELECT * FROM \"AdminkaBot_botdatabase2\"')
+        rows = cursor.fetchall()
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([i[0] for i in cursor.description])  # Write column headers
+    writer.writerows(rows)
+
+    return response
+
 
 
 def clientForm(request):
