@@ -155,3 +155,14 @@ STATIC_URL = 'https://orxid.in.ua/InfoBotStatic/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Максимальний розмір файлу в байтах (5 МБ)
+MAX_UPLOAD_SIZE = 5 * 1024 * 1024  # 5 МБ
+
+# Повідомлення про помилку для перевищення максимального розміру файлу
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+
+# Додатково можна встановити максимальний розмір у формах
+DATA_UPLOAD_MAX_MEMORY_SIZE = MAX_UPLOAD_SIZE

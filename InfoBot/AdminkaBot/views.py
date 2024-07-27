@@ -119,24 +119,44 @@ def locationHextegs(request,id):
     else:
         return HttpResponse('Локація відсутня')
 
+TELEGRAM_BOT_TOKEN = '6296017322:AAHDZeFHr7738MRPMPcmMrgR34ywu_WWZaE'
+TELEGRAM_API_URL = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
+
+def send_telegram_message(chat_id, text):
+    payload = {
+        'chat_id': chat_id,
+        'text': text
+    }
+    try:
+        response = requests.post(TELEGRAM_API_URL, json=payload)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        print(f"Помилка при надсиланні телеграм повідомлення до {chat_id}: {e}")
+        return None
+
 @login_required
 def broadcast(request):
     text = request.POST.get('text')
 
     message = "Напишіть текст повідомлення!"
     if text:
-        try:
-            msg = {"update_id": 443776903, "message": {"message_id": 7852, "from": {"id": 1080587853, "is_bot": False,
-                                                                                    "first_name": "Sergey",
-                                                                                    "language_code": "uk"},
-                                                       "chat": {"id": 1080587853, "first_name": "Sergey",
-                                                                "type": "private"}, "date": 1693751446,
-                                                       "text": f"broadcast#{text}"}}
-
-            URL = "https://zelse.asuscomm.com/prod_terinfobot"
-            resp = requests.post(url=URL, json=msg)
-
-            message= f"Повідомлення надіслано. Відповідь сервера -{resp} "
-        except subprocess.CalledProcessError as e:
-            message= f"Помилка {str(e)}"
+        queryset = UsersStatistic.objects.all()
+        data = list(queryset.values())
+        for telegram_id in data :
+            send_telegram_message(telegram_id, text)
+        # try:
+        #     msg = {"update_id": 443776903, "message": {"message_id": 7852, "from": {"id": 1080587853, "is_bot": False,
+        #                                                                             "first_name": "Sergey",
+        #                                                                             "language_code": "uk"},
+        #                                                "chat": {"id": 1080587853, "first_name": "Sergey",
+        #                                                         "type": "private"}, "date": 1693751446,
+        #                                                "text": f"broadcast#{text}"}}
+        #
+        #     URL = "https://zelse.asuscomm.com/prod_terinfobot"
+        #     resp = requests.post(url=URL, json=msg)
+        #
+        #     message= f"Повідомлення надіслано. Відповідь сервера -{resp} "
+        # except subprocess.CalledProcessError as e:
+        message= f"Надіслано повідомлень {len(data)} користувачам!"
     return render(request, "InfoBot/broadcast.html", {'message': message})
