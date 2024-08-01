@@ -6,3 +6,4 @@ debug.txt
 *.jpg
 venv/
 .idea/
+backup.sql

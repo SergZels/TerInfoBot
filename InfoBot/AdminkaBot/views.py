@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import BotDataBase, UsersStatistic
@@ -144,7 +145,9 @@ def broadcast(request):
         queryset = UsersStatistic.objects.all()
         data = list(queryset.values())
         for telegram_id in data :
-            send_telegram_message(telegram_id, text)
+            send_telegram_message(telegram_id['userTelegramID'], text)
+            print(telegram_id['userTelegramID'])
+            time.sleep(0.5)
         # try:
         #     msg = {"update_id": 443776903, "message": {"message_id": 7852, "from": {"id": 1080587853, "is_bot": False,
         #                                                                             "first_name": "Sergey",
