@@ -8,6 +8,7 @@ import subprocess
 import requests
 from django.db import connection
 import csv
+
 @login_required
 def export_to_csv(request):
    # table_name = BotDataBase._meta.db_table
@@ -120,34 +121,42 @@ def locationHextegs(request,id):
     else:
         return HttpResponse('Локація відсутня')
 
-TELEGRAM_BOT_TOKEN = '6296017322:AAHDZeFHr7738MRPMPcmMrgR34ywu_WWZaE'
-TELEGRAM_API_URL = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
-
 def send_telegram_message(chat_id, text):
     payload = {
         'chat_id': chat_id,
         'text': text
     }
     try:
-        response = requests.post(TELEGRAM_API_URL, json=payload)
+        response = requests.post(f'https://api.telegram.org/bot6296017322:AAHDZeFHr7738MRPMPcmMrgR34ywu_WWZaE/sendMessage', json=payload)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
         print(f"Помилка при надсиланні телеграм повідомлення до {chat_id}: {e}")
         return None
+@login_required
+def broadcastSend(request):
+    pass
 
 @login_required
 def broadcast(request):
     text = request.POST.get('text')
-
     message = "Напишіть текст повідомлення!"
     if text:
         queryset = UsersStatistic.objects.all()
         data = list(queryset.values())
-        for telegram_id in data :
-            send_telegram_message(telegram_id['userTelegramID'], text)
-            print(telegram_id['userTelegramID'])
-            time.sleep(0.5)
+
+        for telegram_id in data:
+            resp = send_telegram_message(telegram_id['userTelegramID'], text)
+            print(telegram_id['userTelegramID'], resp)
+            time.sleep(2)
+
+        # records = [1080587853 for _ in range(1000)]
+        # i=1
+        # for telegram_id in records:
+        #     resp = send_telegram_message(telegram_id, f"{i} {text}")
+        #     print(telegram_id, resp)
+        #     time.sleep(2)
+        #     i+=1
         # try:
         #     msg = {"update_id": 443776903, "message": {"message_id": 7852, "from": {"id": 1080587853, "is_bot": False,
         #                                                                             "first_name": "Sergey",
@@ -161,5 +170,6 @@ def broadcast(request):
         #
         #     message= f"Повідомлення надіслано. Відповідь сервера -{resp} "
         # except subprocess.CalledProcessError as e:
-        message= f"Надіслано повідомлень {len(data)} користувачам!"
+        #message= f"Помилка надсилання повідомлення!"
+        message = f"Надіслано повідомлення до {len(data)} користувачів."
     return render(request, "InfoBot/broadcast.html", {'message': message})
