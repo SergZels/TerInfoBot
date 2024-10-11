@@ -133,9 +133,7 @@ def send_telegram_message(chat_id, text):
     except requests.RequestException as e:
         print(f"Помилка при надсиланні телеграм повідомлення до {chat_id}: {e}")
         return None
-@login_required
-def broadcastSend(request):
-    pass
+
 
 @login_required
 def broadcast(request):

@@ -10,7 +10,7 @@ from aiogram.utils.executor import start_webhook
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram_broadcaster import MessageBroadcaster
 
-TEST_MODE = False
+TEST_MODE = True
 
 if conf.VPS:
     TEST_MODE = False
@@ -71,7 +71,10 @@ def getstring(li: list) -> str:
 async def start(message: types.Message):
     welcomeMessageText = '''Вас вітає ТеребовляІнфоБот.\n\nЦифровий продукт створений громадською організацією Центр цифрового розвитку громади.\n\nНаші контакти:\nngozzrg@gmail.com\n098 151 0 251\nngozzrg.terebovlia.info\n<a href='https://www.facebook.com/ngozzrg'>Facebook</a>
     '''
-    await message.answer(welcomeMessageText, parse_mode="HTML")
+    await message.answer(welcomeMessageText, parse_mode="HTML",disable_web_page_preview=True)
+    MessageText2 = '''Головний спонсор - <a href='https://orxid.in.ua'>ательє Орхідея</a> \nОрхідея - <strong>Досвід, Професійність, Сервіс!</strong>\n\nПрограміст - <a href='https://zelse.asuscomm.com/PortfolioReact/'>Зелінський Сергій</a>
+    '''
+    await message.answer(MessageText2, parse_mode="HTML",disable_web_page_preview=False)
     await message.answer('Оберіть, будь ласка, категорію👇', reply_markup=keyb_main)
     URL = "https://orxid.in.ua/InfoBot/ep/us/"
     resp = requests.get(URL, params={'userName': message.from_user.first_name, 'userID': message.from_user.id})

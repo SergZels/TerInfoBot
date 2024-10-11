@@ -8,7 +8,7 @@ urlpatterns = [
     path("1/", views.index1, name="index1"),
     #path("temp/", views.temp, name="temp"),
     path("broadcast/", views.broadcast, name="bro"),
-    path("broadcastSend/", views.broadcastSend, name="broSend"),
+
     path("addlocation/", views.clientForm, name="addlocation"),
     path("us/", views.userstatistic, name="us"),
     path("location/<str:id>", views.location, name="location"),
