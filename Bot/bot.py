@@ -72,7 +72,7 @@ async def start(message: types.Message):
     welcomeMessageText = '''Вас вітає ТеребовляІнфоБот.\n\nЦифровий продукт створений громадською організацією Центр цифрового розвитку громади.\n\nНаші контакти:\nngozzrg@gmail.com\n098 151 0 251\nngozzrg.terebovlia.info\n<a href='https://www.facebook.com/ngozzrg'>Facebook</a>
     '''
     await message.answer(welcomeMessageText, parse_mode="HTML",disable_web_page_preview=True)
-    MessageText2 = '''Головний спонсор - <a href='https://orxid.in.ua'>ательє Орхідея</a> \nОрхідея - <strong>Досвід, Професійність, Сервіс!</strong>\n\nПрограміст - <a href='https://zelse.asuscomm.com/PortfolioReact/'>Зелінський Сергій</a>
+    MessageText2 = '''Головний спонсор - <a href='https://orxid.in.ua'>ательє Орхідея</a> \nОрхідея - <strong>Досвід, Професійність, Сервіс!</strong>\n\nПрограміст - <a href='https://zelse.asuscomm.com/BotPortfolio'>Зелінський Сергій</a>
     '''
     await message.answer(MessageText2, parse_mode="HTML",disable_web_page_preview=False)
     await message.answer('Оберіть, будь ласка, категорію👇', reply_markup=keyb_main)
